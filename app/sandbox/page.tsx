@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import $ from "jquery"
 import { cn } from "@/lib/utils"
+import { RID, apiRequest, deployCRUDAPI } from "@/utils/utils"
 
 // function deployEmail() {
 //   console.log('at email')
@@ -779,6 +780,18 @@ export default function Page({}) {
     },
   ];
 
+  const handleSubmit = async () => {
+    const rid = RID()
+    await apiRequest({ url: "https://webhub.up.railway.app/api/deploy/coreAPI", method: "POST", data:{ email: reviewEmail, name: rid, rid }})
+        .then((response) => {
+            console.log('response: ', response);
+            const { upRes: { data: { r_id, api_url } } } = response;
+        })
+        .catch((err) => {
+            console.log('err: ', err)
+        });
+};
+
   const scrollOffset = 100
 
   useEffect(() => {
@@ -935,7 +948,10 @@ export default function Page({}) {
   }, [surveyStageComplete])
 
   useEffect(() => {
-
+    if (reviewStageComplete) {
+      console.log('reviewStageComplete: ', reviewStageComplete)
+      handleSubmit()
+    }
   }, [reviewStageComplete])
 
   return (
