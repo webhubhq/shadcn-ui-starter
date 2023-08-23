@@ -97,7 +97,7 @@ export default function Page({}) {
   const [reviewStage, setReviewStage] = useState<number | null>(0);
   const [reviewStageComplete, setReviewStageComplete] = useState(false);
 
-  const [deployStage, setDeployStage] = useState(0);
+  const [deployStage, setDeployStage] = useState<number | null>(0);
   const [deployStageComplete, setDeployStageComplete] = useState(false);
 
   const [buildStage, setBuildStage] = useState(null);
@@ -111,7 +111,7 @@ export default function Page({}) {
   const [q6Answer, setQ6Answer] = useState<string | undefined>();
   const [q7Answer, setQ7Answer] = useState<string | undefined>();
 
-  const [reviewOpts, setReviewOpts] = useState<object[]>([]);
+  const [reviewOpts, setReviewOpts] = useState<any>([]);
   const [reviewEmail, setReviewEmail] = useState('');
 
   const reviewOptsList = [
@@ -254,7 +254,7 @@ export default function Page({}) {
       <AccordionItem value="item-2">
         <AccordionTrigger className="font-bold" style={{ fontFamily: 'Arial', textDecoration: 'none' }}>Is it user friendly?</AccordionTrigger>
         <AccordionContent>
-          Yes! We created a fully functional front for our Dynamic API platoform. From start to finish you don't have to write or read one line of code.
+          Yes! We created a fully functional front for our Dynamic API platoform. From start to finish you don&apos;t have to write or read one line of code.
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-3">
@@ -308,7 +308,7 @@ export default function Page({}) {
       description: 'This selection of AWS Resources / Services was dynamically created based off your survey responses.',
       answerComponent: (disableForm: boolean) => <CardContent className="pl-[50px]">
         <div>
-        {reviewOpts.map(({ name, inputName, description, selected }, i, a) => <>
+        {reviewOpts.map(({ name = '', inputName = '', description = '', selected = false}, i: any, a: any) => <>
             <div className="items-top flex space-x-2">
               <Checkbox
                 id={`terms-${i}`}
@@ -793,7 +793,7 @@ export default function Page({}) {
         // console.log('$container.offset().top: ', $container.offset().top)
         // console.log('$container.scrollTop(): ', $container.scrollTop())
         // console.log('$scrollTo.position(): ', $scrollTo.position())
-        scrollTop = $scrollTo.offset().top - $container.offset().top + $container.scrollTop() - scrollOffset;
+        scrollTop = ($scrollTo?.offset()?.top || 0) - ($container?.offset()?.top || 0) + ($container?.scrollTop() || 0) - scrollOffset;
       }
       
       $container.animate({
@@ -815,7 +815,7 @@ export default function Page({}) {
         // console.log('$container.offset().top: ', $container.offset().top)
         // console.log('$container.scrollTop(): ', $container.scrollTop())
         // console.log('$scrollTo.position(): ', $scrollTo.position())
-        scrollTop = $scrollTo.offset().top - $container.offset().top + $container.scrollTop() - scrollOffset;
+        scrollTop = ($scrollTo?.offset()?.top || 0) - ($container?.offset()?.top || 0) + ($container?.scrollTop() || 0) - scrollOffset;
       }
       
       $container.animate({
@@ -870,6 +870,7 @@ export default function Page({}) {
         }
       }
     };
+    
 
     if (q1Answer?.toLowerCase().includes('microservice')) {
       opts.lambda.reasons.business = true;
@@ -910,12 +911,16 @@ export default function Page({}) {
     const arr = [];
 
     for (const k of reviewOptsList) {
+      // @ts-ignore
       for (const [key, selected] of Object.entries(opts[k].reasons)) {
 
         if (selected) {
           arr.push({
+            // @ts-ignore
             name: reviewResourcesAndServices[k].name,
+            // @ts-ignore
             endpoint: reviewResourcesAndServices[k].endpoint,
+            // @ts-ignore
             ...reviewResourcesAndServices[k].reasons[key],
             selected: true,
           })
@@ -1046,12 +1051,15 @@ export default function Page({}) {
                   number: i + 1,
                   question,
                   description,
+                  // @ts-ignore
                   answerComponent,
                 })}
                 {surveyButtonSpacer({
                   key: `${name}-${i}`,
+                  // @ts-ignore
                   index: i,
                   last: arr.length - 1 === i,
+                  // @ts-ignore
                   lastStage: lastStage,
                   state: stage === i
                     ? 'next'
