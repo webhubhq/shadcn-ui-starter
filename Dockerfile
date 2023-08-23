@@ -10,6 +10,9 @@ COPY package*.json ./
 # Copy the components.json file
 COPY components.json ./
 
+#Copy ts.config.json
+COPY tsconfig.json ./
+
 # Install dependencies
 RUN npm install
 
