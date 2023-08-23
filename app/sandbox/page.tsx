@@ -3,8 +3,22 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import $ from "jquery"
-
 import { cn } from "@/lib/utils"
+
+import { Resend } from 'resend';
+
+const resend = new Resend('re_jXrzMemo_MCPVudu8H2vqBJtpMuwC7jfM');
+
+function deployEmail() {
+  console.log('at email')
+  resend.emails.send({
+    from: 'webhubhq@gmail.com',
+    to: 'jricramc@mit.edu',
+    subject: 'Hello from WebHub',
+    html: '<p>Congrats on sending your <strong>first email</strong>!</p>'
+  });
+}
+
 
 import {
   Calculator,
@@ -618,9 +632,14 @@ onClick={onClick}
       setStage: () => {},
       submit: {
         text: 'Build',
-        handle: () => setSelectedStep(3)
+        handle: () => {
+          setSelectedStep(3);
+          console.log('before deploy email')
+          deployEmail();
+        }
       }
     },
+    
     {
       id: 'container-build',
       name: 'Build',
@@ -731,7 +750,13 @@ onClick={onClick}
               text: '3. Deploy',
               selected: selectedStep === 2,
               done: false,
-              onClick: reviewStage === null ? () => setSelectedStep(2) : () => {}
+              onClick: () => {
+                if (reviewStage === null) {
+                  setSelectedStep(2);
+                  console.log('before deploy email')
+                  deployEmail();
+                }
+              }
             }),
             chevron,
             step({
