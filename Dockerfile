@@ -10,6 +10,9 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
+# Install shadcn-ui
+RUN npx shadcn-ui add --overwrite --yes textarea tabs separator select radio-group progress input dialog card button label command checkbox accordion badge form
+
 # Copy the entire project into the container
 COPY . .
 
@@ -17,7 +20,7 @@ COPY . .
 RUN npm run build
 
 # Expose port 3000 to be accessed externally
-EXPOSE 3000
+# EXPOSE 3000
 
 # Define the runtime command
 CMD ["npm", "run", "start"]
