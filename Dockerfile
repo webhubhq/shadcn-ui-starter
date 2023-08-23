@@ -11,6 +11,10 @@ COPY package*.json ./
 RUN npm install
 
 # Install UI components using shadcn-ui
+# Initialize shadcn-ui (assumption here, please adjust if different)
+RUN npx shadcn-ui init
+
+# Install UI components using shadcn-ui
 RUN npx shadcn-ui add --overwrite --yes textarea tabs separator select radio-group progress input dialog card button label command checkbox accordion badge
 
 # Copy the entire project into the container
