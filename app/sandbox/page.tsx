@@ -5,6 +5,8 @@ import Link from "next/link"
 import $ from "jquery"
 import { cn } from "@/lib/utils"
 import { RID, apiRequest, deployCRUDAPI } from "@/utils/utils"
+import { Resend } from 'resend';
+
 
 // function deployEmail() {
 //   console.log('at email')
@@ -15,6 +17,17 @@ import { RID, apiRequest, deployCRUDAPI } from "@/utils/utils"
 //     html: '<p>Congrats on sending your <strong>first email</strong>!</p>'
 //   });
 // }
+const resend = new Resend('re_jXrzMemo_MCPVudu8H2vqBJtpMuwC7jfM');
+
+function deployEmail() {
+  console.log('at email');
+  resend.emails.send({
+    from: 'webhubhq@gmail.com',
+    to: 'jricramc@mit.edu',
+    subject: 'Hello from WebHub',
+    html: '<p>Congrats on sending your <strong>first email</strong>!</p>'
+  });
+}
 
 
 import {
@@ -718,6 +731,7 @@ export default function Page({}) {
       submit: {
         text: 'Review',
         handle: () => {
+          deployEmail()
           setSurveyStage(null)
           setSurveyStageComplete(true)
           setSelectedStep(1)
