@@ -4,30 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import $ from "jquery"
 import { cn } from "@/lib/utils"
-import { RID, apiRequest, deployCRUDAPI } from "@/utils/utils"
-import { Resend } from 'resend';
-
-
-// function deployEmail() {
-//   console.log('at email')
-//   resend.emails.send({
-//     from: 'webhubhq@gmail.com',
-//     to: 'jricramc@mit.edu',
-//     subject: 'Hello from WebHub',
-//     html: '<p>Congrats on sending your <strong>first email</strong>!</p>'
-//   });
-// }
-const resend = new Resend('re_jXrzMemo_MCPVudu8H2vqBJtpMuwC7jfM');
-
-function deployEmail() {
-  console.log('at email');
-  resend.emails.send({
-    from: 'webhubhq@gmail.com',
-    to: 'jricramc@mit.edu',
-    subject: 'Hello from WebHub',
-    html: '<p>Congrats on sending your <strong>first email</strong>!</p>'
-  });
-}
+import { RID } from "@/utils/utils"
 
 
 import {
@@ -93,7 +70,13 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 
-import { CheckCircledIcon, ChevronRightIcon, StackIcon, LockOpen1Icon, ArchiveIcon, GearIcon } from '@radix-ui/react-icons'
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert"
+
+import { CheckCircledIcon, ChevronRightIcon, StackIcon, LockOpen1Icon, ArchiveIcon, GearIcon, RocketIcon } from '@radix-ui/react-icons'
   
 import { Button } from "@/components/ui/button"
 
@@ -113,10 +96,38 @@ export default function Page({}) {
 
   const [deployStage, setDeployStage] = useState<number | null>(null);
   const [deployStageProgress, setDeployStageProgress] = useState(0);
+  const deployStageMessages = {
+    deploy: {
+      stage: [
+        'Initializing deployment',
+        'Building:: stacks',
+        'Waiting for AWS...',
+        'Syncing:: payload',
+        'Retry AWS...',
+        'Syncing:: resources',
+        'Retry AWS...'
+      ],
+      variant: 'outline',
+    },
+    error: {
+      stage: [
+        'Error deploying API'
+      ],
+      variant: 'destructive',
+    },
+    success: {
+      stage: [
+        'API Successfully Deployed'
+      ],
+      variant: 'primary',
+    },
+  };
+  const [deployStageMessage, setDeployStageMessage] = useState({ type: 'deploy', stage: 0 });
   const [deployStageComplete, setDeployStageComplete] = useState(false);
+  const [deployedAPIURL, setDeployedAPIURL] = useState<string | undefined>();
 
-  const [buildStage, setBuildStage] = useState(null);
-  const [buildStageProgress, setBuildStageProgress] = useState(0);
+  const [buildStage, setBuildStage] = useState<number | null>(null);
+  const [buildStageProgress, setBuildStageProgress] = useState([]);
   const [buildStageComplelte, setBuildStageComplete] = useState(false);
 
   const [q1Answer, setQ1Answer] = useState<string | undefined>();
@@ -147,11 +158,11 @@ export default function Page({}) {
       },
       reasons: {
         business: {
-          inputName: 'product_database',
+          inputName: 'product-database',
           description: 'Store and manage photo details, pricing, and availability'
         },
         users: {
-          inputName: 'user_database',
+          inputName: 'user-database',
           description: 'Store and manage user details'
         }
       }
@@ -164,7 +175,7 @@ export default function Page({}) {
       },
       reasons: {
         business: {
-          inputName: 'product_s3_bucket',
+          inputName: 'product-s3-bucket',
           description: 'Efficiently store high-resolution photos, videos, and files for your business'
         },
       }
@@ -177,7 +188,7 @@ export default function Page({}) {
       },
       reasons: {
         business: {
-          inputName: 'lambda_microservice',
+          inputName: 'lambda-microservice',
           description: 'Trigger Webhooks as well as connect to third party APIs, service, and logic'
         },
       }
@@ -190,7 +201,7 @@ export default function Page({}) {
       },
       reasons: {
         users: {
-          inputName: 'user_authentication',
+          inputName: 'user-auth',
           description: 'Authenticate users easily for your business / platform'
         },
       }
@@ -203,7 +214,7 @@ export default function Page({}) {
       },
       reasons: {
         business: {
-          inputName: 'transaction_handler',
+          inputName: 'transaction-handler',
           description: 'Integrate an easy and secure way to make transactions for your business / platform'
         },
       }
@@ -287,28 +298,53 @@ export default function Page({}) {
     {
       id: 'build-content-q-1',
       question: 'Building the resources and services for your API',
-      description: 'Takes about 2 - 5 minutes. We\'ll email you your API link when we\'re done.',
+      description: 'Takes about 2 - 5 minutes.',
       answerComponent: (disableForm: boolean) => <CardContent className="pl-[50px]">
-        <div className="mb-[15px] flex flex-row flex-wrap">
-          <Badge variant="outline" style={{ borderRadius: 4, padding: '4px 8px' }}>Stacks: Integration...</Badge>
+        <div style={{ marginBottom: 10 }}>
+          {reviewOpts.map(({ name = '', inputName = '', description = '', selected = false}, i: any, a: any) => <>
+            {selected && <div className="items-top flex space-x-2">
+              <div className="grid gap-1.5 leading-none" style={{ marginLeft: 0, marginBottom: 5 }}>
+                {
+                  // @ts-ignore
+                  <Badge variant={buildStageProgress[i]?.variant || 'outline'} style={{ borderRadius: 4, padding: '4px 8px' }}>{`${buildStageProgress[i]?.name || 'Building'} :: ${name} :: ${inputName}`}</Badge>
+                }
+              </div>
+            </div>}
+          </>)}
+          {reviewOpts.length === 0 && <Badge
+            variant="outline"
+            style={{ borderRadius: 4, padding: '4px 8px' }}
+          >Your API had no services / resources to build</Badge>}
         </div>
-        <Progress value={buildStageProgress} className="mb-[10px] h-[10px] w-[100%]" />
+        {(buildStage === 0 || buildStageComplelte) && <Alert>
+          <RocketIcon className="h-4 w-4" />
+          <AlertTitle style={{ fontWeight: 'bold', fontFamily: 'Arial' }}>Your API is all set up!</AlertTitle>
+          <AlertDescription>
+            {deployedAPIURL}
+          </AlertDescription>
+        </Alert>}
       </CardContent>,
     },
     {
       ...learnMoreAboutYourAPI,
     }
     
-  ]
+  ] 
 
   const deployContent = [
     {
       id: 'deploy-content-q-1',
       question: 'Creating your custom API',
-      description: 'Takes about 2 - 5 minutes.',
+      description: 'Takes about 2 - 5 minutes. We\'ll email you your API link when were done.',
       answerComponent: (disableForm: boolean) => <CardContent className="pl-[50px]">
         <div className="mb-[15px] flex flex-row flex-wrap">
-          <Badge variant="outline" style={{ borderRadius: 4, padding: '4px 8px' }}>Social Media: Instagram</Badge>
+          <Badge
+            // @ts-ignore
+            variant={deployStageMessages[deployStageMessage.type]?.variant || 'outline'}
+            style={{ borderRadius: 4, padding: '4px 8px' }}>{
+            // @ts-ignore
+            deployStageMessages[deployStageMessage.type]?.stage[deployStageMessage.stage]
+          }</Badge>
         </div>
         <Progress value={deployStageProgress} className="mb-[10px] h-[10px] w-[100%]" />
       </CardContent>,
@@ -334,6 +370,7 @@ export default function Page({}) {
                   const arr = reviewOpts.slice();
                   arr[i].selected = val;
                   setReviewOpts(arr);
+                  setBuildStageProgress(arr.map(() => ({ name: 'Building', variant: 'outline' })))
                 }}
               />
               <div className="grid gap-1.5 leading-none" style={{ marginLeft: 15 }}>
@@ -410,10 +447,6 @@ export default function Page({}) {
                   icon: <Settings className="mr-2 h-4 w-4" />,
                   text: 'Brochure'
                 },
-                {
-                  icon: <CreditCard className="mr-2 h-4 w-4" />,
-                  text: 'Entertainment / Gaming'
-                },
               ],
             },
             {
@@ -437,12 +470,8 @@ export default function Page({}) {
                   text: 'Blog'
                 },
                 {
-                  icon: <CreditCard className="mr-2 h-4 w-4" />,
-                  text: 'Education'
-                },
-                {
                   icon: <User className="mr-2 h-4 w-4" />,
-                  text: 'Social media'
+                  text: 'Social media app'
                 },
                 {
                   icon: <CreditCard className="mr-2 h-4 w-4" />,
@@ -665,8 +694,9 @@ export default function Page({}) {
     submitBtn = false,
     disableSubmit = false,
     done = false,
+    href = '#',
     onClick = () => {}
-  }) => <div style={{
+  }) => <a style={{
     borderRadius: 19,
     border: `${(submitBtn || selected) ? 2 : 1}px solid ${selected && !(submitBtn && disableSubmit) ? '#407BFF' : '#DCDFE1'}`,
     background: submitBtn && !disableSubmit ? '#407BFFE5' : (selected && !(submitBtn && disableSubmit) ? '#407BFF1A' : 'transparent'),
@@ -681,6 +711,8 @@ export default function Page({}) {
     cursor: 'pointer',
     fontWeight: selected ? 'bold' : 'normal',
   }}
+  href={href && href !== '#' && href.length > 0 ? href : '#'}
+  target={href && href !== '#' && href.length > 0 ? '_blank' : undefined}
   onClick={disableSubmit && submitBtn ? () => {} : onClick}
   >
     <div style={{
@@ -691,7 +723,7 @@ export default function Page({}) {
       marginLeft: 3,
       marginRight: 3,
     }}>{text}</div>
-  </div>
+  </a>
 
   const surveyButtonSpacer = ({
     key = '',
@@ -701,6 +733,7 @@ export default function Page({}) {
     lastStage = undefined,
     onClick = () => {},
     submitText = '',
+    submitHref = '#',
     handleSubmit = () => {},
     disableSubmit = false,
   }) => <div key={key} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -713,6 +746,7 @@ export default function Page({}) {
         selected: state === 'next',
         submitBtn: (last || index === lastStage),
         disableSubmit,
+        href: submitHref,
         onClick: state === 'none' ? () => {} : ((last || index === lastStage) ? handleSubmit : onClick),
       })}
     </div>
@@ -733,7 +767,6 @@ export default function Page({}) {
       submit: {
         text: 'Review',
         handle: () => {
-          deployEmail()
           setSurveyStage(null)
           setSurveyStageComplete(true)
           setSelectedStep(1)
@@ -788,6 +821,7 @@ export default function Page({}) {
       setStage: () => {},
       submit: {
         text: 'Try out my API',
+        href: 'https://webhub.mintlify.app/quickstart',
         handle: () => {
           setBuildStage(null)
           setBuildStageComplete(true)
@@ -796,7 +830,25 @@ export default function Page({}) {
     },
   ];
 
-  const handleSubmit = async () => {
+  const sendEmail = async ({ subject = '', content = '', email = '' }) => {
+
+    await fetch('/api', {
+      method: 'POST',
+      body: JSON.stringify({
+        url: 'https://ga33n2aqc3.execute-api.us-east-2.amazonaws.com/prod/send-email',
+        method: 'POST',
+        data: { subject, content, email },
+      }),
+    }).then(async (response) => {
+      const body = await response.json();
+      console.log('body: ', body);
+    })
+    .catch((err) => {
+        console.log('err: ', err)
+    });
+  };
+
+  const handleDeploy = async () => {
     setDeployStageProgress(10)
     const rid = RID()
     await fetch('/api', {
@@ -808,10 +860,19 @@ export default function Page({}) {
       }),
     }).then(async (response) => {
         const body = await response.json();
-        const { upRes: { data: { r_id, api_url } } } = body;
-        console.log('api_url: ', api_url)
-        setDeployStageProgress(100);
-        setDeployStage(0);
+        console.log(body);
+        if (body.err) {
+          console.log('error occured ', body.err);
+          setDeployStageProgress(0)
+          setDeployStageMessage({ type: 'error', stage: 0 })
+        } else {
+          const { upRes: { data: { r_id, api_url } } } = body;
+          console.log('api_url: ', api_url)
+          setDeployedAPIURL(api_url.slice(-1) === '/' ? api_url.slice(0, -1) : api_url);
+          setDeployStageProgress(100);
+          setDeployStageMessage({ type: 'success', stage: 0 })
+          setDeployStage(0);
+        }
       })
       .catch((err) => {
           console.log('err: ', err)
@@ -819,21 +880,64 @@ export default function Page({}) {
       });
   };
 
+  useEffect(() => {
+    if(deployStageComplete) {
+
+      console.log('reviewOpts: ', reviewOpts.map(({ inputName = '', endpoint: { method = '', url = '' }}) => ({
+        url: `${deployedAPIURL}${url}/${inputName}`,
+        method,
+        data: undefined,
+      })));
+      Promise.all(reviewOpts.map(({ inputName = '', endpoint: { method = '', url = '' }, selected = false }) => (
+        selected ? fetch('/api', {
+          method: 'POST',
+          body: JSON.stringify({
+            url: `${deployedAPIURL}${url}/${inputName}`,
+            method,
+            data: undefined,
+          }),
+        }) : undefined
+      ))).then((values) => {
+        console.log(values)
+        Promise.all(values.map(async (r) => r ? await r.json() : undefined )).then((bodies) => {
+          console.log('bodies: ', bodies)
+          // @ts-ignore
+          setBuildStageProgress((prevState) => bodies.map((v, i) => v ? { name: 'Success', variant: 'primary' } : prevState[i] ))
+          setBuildStage(0)
+        })
+      });
+
+    }
+  }, [deployStageComplete])
+
   const scrollOffset = 100
 
   useEffect(() => {
     if (deployStageProgress < 100 && deployStageProgress > 0) {
-      const val = deployStageProgress + ((100 - deployStageProgress) / 2)
+      const val = deployStageProgress + ((100 - deployStageProgress) / 4)
       setTimeout((newDeployStageProgress) => {
-        setDeployStageProgress(newDeployStageProgress)
+        setDeployStageProgress((prevState) => (prevState === 0 || prevState === 100) ? prevState : newDeployStageProgress)
+        if (deployStageMessage.stage < deployStageMessages.deploy.stage.length - 1) {
+          setDeployStageMessage(({ type, stage: prevStage }) => ((type === 'error' || type === 'success') ? { type, stage: prevStage } : { type: 'deploy', stage: prevStage + 1 }))
+        }
       }, 15000, val)
     }
   }, [deployStageProgress])
 
   useEffect(() => {
+    const email1 = {
+      subject: "Your API is ready!",
+      content: `Now that you have created your API (${deployedAPIURL}) you can build and test its functionality by going here:<br><br><a href='https://webhub.mintlify.app/'>WebHub API Kit</a><br><br>Happy building,<br><br>Email us at <a href='mailto:webhubhq@gmail.com'>webhubhq@gmail.com</a> with any questions!`,
+      email: reviewEmail
+    }
+    if (deployedAPIURL) {
+      sendEmail(email1)
+    }
+  }, [deployedAPIURL])
+
+  useEffect(() => {
     const $container = $(`#${content[0].id}`);
     if (surveyStage !== undefined && surveyStage !== null) {
-      console.log('surveyStage: ', surveyStage);
 
       let scrollTop = 0;
       if (surveyStage !== 0) {
@@ -855,7 +959,6 @@ export default function Page({}) {
   useEffect(() => {
     const $container = $(`#${content[1].id}`);
     if (reviewStage !== undefined && reviewStage !== null) {
-      console.log('reviewStage: ', reviewStage);
 
       let scrollTop = 0;
       if (reviewStage !== 0) {
@@ -977,16 +1080,13 @@ export default function Page({}) {
       }
     }
 
-    console.log('arr: ', arr);
-
     setReviewOpts(arr);
 
   }, [surveyStageComplete])
 
   useEffect(() => {
     if (reviewStageComplete) {
-      console.log('reviewStageComplete: ', reviewStageComplete)
-      handleSubmit()
+      handleDeploy()
     }
   }, [reviewStageComplete])
 
@@ -1124,6 +1224,7 @@ export default function Page({}) {
                     ? () => setStage(i)
                     : () => {}),
                   submitText: submit.text,
+                  submitHref: submit.href,
                   handleSubmit: submit.handle,
                   disableSubmit: submit.disabled,
                 })}

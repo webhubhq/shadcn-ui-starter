@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
 
-  console.log('GET!')
 
   // const res = await fetch(url, {
   //   method,
@@ -26,11 +25,9 @@ export async function POST(request: Request) {
     data
   } = await request.json();
 
-  console.log({ url, method, data })
-
   const res = await fetch(url, {
     method,
-    body: JSON.stringify(data),
+    ...(data ? { body: JSON.stringify(data)} : {}),
     headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
