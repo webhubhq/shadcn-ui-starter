@@ -21,23 +21,6 @@ const deployCRUDAPI = async ({ name = "", email = "", rid = "" }) => {
   return Promise.reject(`error ${res.status} received from server`);
 };
 
-
-
-const apiRequest = async ({ url = "", method = "", data = {} }) => {
-
-    const res = await unfetch('/app/api/api.js', {
-        method: 'POST',
-        body: JSON.stringify({ url, method, data }),
-        headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Content-Type': 'application/json',
-        },
-    });
-    if (res.status === 200) {
-        return Promise.resolve(res.json());
-    } return Promise.reject(`error ${res.status} received from server`);
-  };
-
 const RID = (l= 5) => {
     const c = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let rid = '';
@@ -67,5 +50,5 @@ const extractRegionAndAccountIdFromExecutionArn = (inputString: string) => {
 }
 
 
-export { deployCRUDAPI, RID, apiRequest, extractDomain, extractRegionAndAccountIdFromExecutionArn }
+export { deployCRUDAPI, RID, extractDomain, extractRegionAndAccountIdFromExecutionArn }
 
