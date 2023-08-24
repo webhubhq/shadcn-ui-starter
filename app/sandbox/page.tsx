@@ -713,7 +713,7 @@ export default function Page({}) {
   }}
   href={href && href !== '#' && href.length > 0 ? href : '#'}
   target={href && href !== '#' && href.length > 0 ? '_blank' : undefined}
-  onClick={disableSubmit && submitBtn ? () => {} : onClick}
+  onClick={disableSubmit && submitBtn ? () => {} : onClick} rel="noreferrer"
   >
     <div style={{
       fontSize: 14,
