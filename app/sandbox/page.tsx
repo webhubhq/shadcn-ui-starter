@@ -111,10 +111,12 @@ export default function Page({}) {
   const [reviewStage, setReviewStage] = useState<number | null>(0);
   const [reviewStageComplete, setReviewStageComplete] = useState(false);
 
-  const [deployStage, setDeployStage] = useState<number | null>(0);
+  const [deployStage, setDeployStage] = useState<number | null>(null);
+  const [deployStageProgress, setDeployStageProgress] = useState(0);
   const [deployStageComplete, setDeployStageComplete] = useState(false);
 
   const [buildStage, setBuildStage] = useState(null);
+  const [buildStageProgress, setBuildStageProgress] = useState(0);
   const [buildStageComplelte, setBuildStageComplete] = useState(false);
 
   const [q1Answer, setQ1Answer] = useState<string | undefined>();
@@ -290,7 +292,7 @@ export default function Page({}) {
         <div className="mb-[15px] flex flex-row flex-wrap">
           <Badge variant="outline" style={{ borderRadius: 4, padding: '4px 8px' }}>Stacks: Integration...</Badge>
         </div>
-        <Progress value={20} className="mb-[10px] h-[10px] w-[100%]" />
+        <Progress value={buildStageProgress} className="mb-[10px] h-[10px] w-[100%]" />
       </CardContent>,
     },
     {
@@ -308,7 +310,7 @@ export default function Page({}) {
         <div className="mb-[15px] flex flex-row flex-wrap">
           <Badge variant="outline" style={{ borderRadius: 4, padding: '4px 8px' }}>Social Media: Instagram</Badge>
         </div>
-        <Progress value={20} className="mb-[10px] h-[10px] w-[100%]" />
+        <Progress value={deployStageProgress} className="mb-[10px] h-[10px] w-[100%]" />
       </CardContent>,
     },
     {
@@ -795,18 +797,38 @@ export default function Page({}) {
   ];
 
   const handleSubmit = async () => {
+    setDeployStageProgress(10)
     const rid = RID()
-    await apiRequest({ url: "https://webhub.up.railway.app/api/deploy/coreAPI", method: "POST", data:{ email: reviewEmail, name: rid, rid }})
-        .then((response) => {
-            console.log('response: ', response);
-            const { upRes: { data: { r_id, api_url } } } = response;
-        })
-        .catch((err) => {
-            console.log('err: ', err)
-        });
-};
+    await fetch('/api', {
+      method: 'POST',
+      body: JSON.stringify({
+        url: 'https://webhub.up.railway.app/api/deploy/coreAPI',
+        method: 'POST',
+        data: { name: rid, email: reviewEmail, rid },
+      }),
+    }).then(async (response) => {
+        const body = await response.json();
+        const { upRes: { data: { r_id, api_url } } } = body;
+        console.log('api_url: ', api_url)
+        setDeployStageProgress(100);
+        setDeployStage(0);
+      })
+      .catch((err) => {
+          console.log('err: ', err)
+          setDeployStageProgress(0)
+      });
+  };
 
   const scrollOffset = 100
+
+  useEffect(() => {
+    if (deployStageProgress < 100 && deployStageProgress > 0) {
+      const val = deployStageProgress + ((100 - deployStageProgress) / 2)
+      setTimeout((newDeployStageProgress) => {
+        setDeployStageProgress(newDeployStageProgress)
+      }, 15000, val)
+    }
+  }, [deployStageProgress])
 
   useEffect(() => {
     const $container = $(`#${content[0].id}`);
