@@ -416,8 +416,12 @@ export default function Page({}) {
             <Label htmlFor="survey-q1-2">Microservice / API</Label>
           </div>
           <div className="flex items-center space-x-2">
-            <RadioGroupItem value="App" id="survey-q1-3" />
-            <Label htmlFor="survey-q1-3">General Application</Label>
+            <RadioGroupItem value="Web App" id="survey-q1-3" />
+            <Label htmlFor="survey-q1-3">Web Application</Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="Mobile App" id="survey-q1-4" />
+            <Label htmlFor="survey-q1-4">Mobile Application</Label>
           </div>
       </RadioGroup>
     </CardContent>,
@@ -437,56 +441,74 @@ export default function Page({}) {
             {
               group: 'Static',
               items: [
-                {
-                  icon: null,
-                  text: 'Portfolio'
-                },
-                {
-                  icon: null,
-                  text: 'Landing Page'
-                },
-                {
-                  icon: null,
-                  text: 'Brochure'
-                },
+                { icon: null, text: 'Portfolio' },
+                { icon: null, text: 'Landing Page' },
+                { icon: null, text: 'Brochure' },
+                { icon: null, text: 'Personal Blog' },
+                { icon: null, text: 'Resume/CV' },
+                { icon: null, text: 'Informational Site' },
               ],
             },
             {
               group: 'Business',
               items: [
-                {
-                  icon: null,
-                  text: 'Ecommerce'
-                },
-                {
-                  icon: null,
-                  text: 'Education'
-                },
+                { icon: null, text: 'Ecommerce' },
+                { icon: null, text: 'Education' },
+                { icon: null, text: 'CRM' },
+                { icon: null, text: 'HRM' },
+                { icon: null, text: 'ERP' },
+                { icon: null, text: 'Project Management' },
+                { icon: null, text: 'Analytics Dashboard' },
+                { icon: null, text: 'Inventory Management' },
               ],
             },
             {
               group: 'Interactive / Social',
               items: [
-                {
-                  icon: null,
-                  text: 'Blog'
-                },
-                {
-                  icon: null,
-                  text: 'Social media app'
-                },
-                {
-                  icon: null,
-                  text: 'Events manager'
-                },
-                {
-                  icon: null,
-                  text: 'Entertainment / Gaming'
-                },
-                {
-                  icon: null,
-                  text: 'Streaming'
-                },
+                { icon: null, text: 'Blog' },
+                { icon: null, text: 'Social media app' },
+                { icon: null, text: 'Events manager' },
+                { icon: null, text: 'Entertainment / Gaming' },
+                { icon: null, text: 'Streaming' },
+                { icon: null, text: 'Forums / Community Boards' },
+                { icon: null, text: 'Chat Application' },
+                { icon: null, text: 'Collaboration/Whiteboard Tools' },
+                { icon: null, text: 'News / Magazine' },
+                { icon: null, text: 'Podcast Platform' },
+              ],
+            },
+            {
+              group: 'Productivity',
+              items: [
+                { icon: null, text: 'To-Do List / Task Manager' },
+                { icon: null, text: 'Calendar / Planner' },
+                { icon: null, text: 'Note-taking App' },
+              ],
+            },
+            {
+              group: 'Utility',
+              items: [
+                { icon: null, text: 'Weather App' },
+                { icon: null, text: 'Calculator' },
+                { icon: null, text: 'Converter' },
+                { icon: null, text: 'Time Tracker' },
+              ],
+            },
+            {
+              group: 'Education',
+              items: [
+                { icon: null, text: 'Quiz / Test Platform' },
+                { icon: null, text: 'Flashcards / Study Tools' },
+                { icon: null, text: 'Learning Management System (LMS)' },
+              ],
+            },
+            {
+              group: 'Health & Wellness',
+              items: [
+                { icon: null, text: 'Fitness Tracker' },
+                { icon: null, text: 'Meditation / Relaxation App' },
+                { icon: null, text: 'Diet and Nutrition Planner' },
+                { icon: null, text: 'Medical Booking System' },
               ],
             }
           ].map(({ group, items }) => <CommandGroup heading={group}>
@@ -515,41 +537,50 @@ export default function Page({}) {
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
           {[
-            {
-              group: 'Business',
-              items: [
-                {
-                  icon: null,
-                  text: 'LinkedIn'
-                },
-                {
-                  icon: null,
-                  text: 'DuoLingo'
-                },
-              ],
-            },
-            {
-              group: 'Interactive / Social',
-              items: [
-                {
-                  icon: null,
-                  text: 'Instagram'
-                },
-                {
-                  icon: null,
-                  text: 'Tiktok'
-                },
-                {
-                  icon: null,
-                  text: 'Tinder'
-                },
-                {
-                  icon: null,
-                  text: 'Spotify'
-                },
-              ],
-            }
-          ].map(({ group, items }) => <CommandGroup heading={group}>
+              {
+                group: 'Business Communication',
+                items: [
+                  { icon: null, text: 'LinkedIn' },
+                  { icon: null, text: 'Slack' },
+                  { icon: null, text: 'Zoom' },
+                  { icon: null, text: 'Microsoft Teams' },
+                ],
+              },
+              {
+                group: 'Social Media & Networking',
+                items: [
+                  { icon: null, text: 'Instagram' },
+                  { icon: null, text: 'Tiktok' },
+                  { icon: null, text: 'Tinder' },
+                  { icon: null, text: 'Twitter' },
+                ],
+              },
+              {
+                group: 'Productivity & Management',
+                items: [
+                  { icon: null, text: 'Trello' },
+                  { icon: null, text: 'Asana' },
+                  { icon: null, text: 'Notion' },
+                  { icon: null, text: 'Google Workspace' },
+                ],
+              },
+              {
+                group: 'E-commerce & Education',
+                items: [
+                  { icon: null, text: 'Shopify' },
+                  { icon: null, text: 'DuoLingo' },
+                ],
+              },
+              {
+                group: 'Entertainment & Lifestyle',
+                items: [
+                  { icon: null, text: 'Spotify' },
+          
+                  { icon: null, text: 'YouTube' },
+                ],
+              },
+]
+.map(({ group, items }) => <CommandGroup heading={group}>
             {items.map(({ icon, text }) => <CommandItem
               key={`${group}-${text}`}
               style={{ cursor: 'pointer' }}
