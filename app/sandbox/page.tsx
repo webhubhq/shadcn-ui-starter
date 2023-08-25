@@ -613,11 +613,11 @@ export default function Page({}) {
                 group: 'Database',
                 items: [
                   {
-                    icon: null,
+                    icon: <StackIcon className="mr-2 h-4 w-4" />,
                     text: 'DynamoDB'
                   },
                   {
-                    icon: null,
+                    icon: <ArchiveIcon className="mr-2 h-4 w-4" />,
                     text: 'S3'
                   },
                 ],
@@ -626,7 +626,7 @@ export default function Page({}) {
                 group: 'Authentication',
                 items: [
                   {
-                    icon: null,
+                    icon: <LockOpen1Icon className="mr-2 h-4 w-4" />,
                     text: 'Google OAuth'
                   },
                 ],
@@ -635,7 +635,7 @@ export default function Page({}) {
                 group: 'Payment',
                 items: [
                   {
-                    icon: null,
+                    icon: <GearIcon className="mr-2 h-4 w-4" />,
                     text: 'Stripe'
                   },
                 ],
