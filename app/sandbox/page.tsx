@@ -128,6 +128,7 @@ export default function Page({}) {
 
   const [buildStage, setBuildStage] = useState<number | null>(null);
   const [buildStageProgress, setBuildStageProgress] = useState([]);
+  const [buildStageProgressVal, setBuildStageProgressVal] = useState(0);
   const [buildStageComplelte, setBuildStageComplete] = useState(false);
 
   const [q1Answer, setQ1Answer] = useState<string | undefined>();
@@ -275,7 +276,7 @@ export default function Page({}) {
       <AccordionItem value="item-1">
         <AccordionTrigger className="font-bold" style={{ fontFamily: 'Arial', textDecoration: 'none' }}>What&apos;s so special about my API?</AccordionTrigger>
         <AccordionContent>
-          At WebHUB we have revolutionized how APIs are built and operate by creating what is called a <em>Dynamic API</em>. A Dynamic API is a an API that can create infrastructure and services for itself and then exposes those thoses resoruce as endpoints. This means that developers only have to worry about what infrastructure and services they want and the API takes care of building the resources and creating endpoints for to talk to those resources. This ensures that your API applicaiton is completely self consistent and is able to evolve and adapt to your needs fricitonlessly.
+          At WebHUB we have revolutionized how APIs are built and operate by creating what is called a <em>Dynamic API</em>. A Dynamic API is a an API that can create infrastructure and services for itself and then exposes those resoruces as endpoints. This means that developers only have to worry about what infrastructure and services they want and the API takes care of building the resources and creating endpoints for to talk to those resources. This ensures that your API applicaiton is completely self consistent and is able to evolve and adapt to your needs frictionlessly.
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-2">
@@ -311,6 +312,7 @@ export default function Page({}) {
               </div>
             </div>}
           </>)}
+          {reviewOpts.length > 0 && <Progress value={buildStageProgressVal} className="mb-[10px] h-[10px] w-[100%]" />}
           {reviewOpts.length === 0 && <Badge
             variant="outline"
             style={{ borderRadius: 4, padding: '4px 8px' }}
@@ -415,7 +417,7 @@ export default function Page({}) {
           </div>
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="App" id="survey-q1-3" />
-            <Label htmlFor="survey-q1-3">App</Label>
+            <Label htmlFor="survey-q1-3">General Application</Label>
           </div>
       </RadioGroup>
     </CardContent>,
@@ -436,15 +438,15 @@ export default function Page({}) {
               group: 'Static',
               items: [
                 {
-                  icon: <User className="mr-2 h-4 w-4" />,
+                  icon: null,
                   text: 'Portfolio'
                 },
                 {
-                  icon: <CreditCard className="mr-2 h-4 w-4" />,
+                  icon: null,
                   text: 'Landing Page'
                 },
                 {
-                  icon: <Settings className="mr-2 h-4 w-4" />,
+                  icon: null,
                   text: 'Brochure'
                 },
               ],
@@ -453,11 +455,11 @@ export default function Page({}) {
               group: 'Business',
               items: [
                 {
-                  icon: <User className="mr-2 h-4 w-4" />,
+                  icon: null,
                   text: 'Ecommerce'
                 },
                 {
-                  icon: <CreditCard className="mr-2 h-4 w-4" />,
+                  icon: null,
                   text: 'Education'
                 },
               ],
@@ -466,23 +468,23 @@ export default function Page({}) {
               group: 'Interactive / Social',
               items: [
                 {
-                  icon: <User className="mr-2 h-4 w-4" />,
+                  icon: null,
                   text: 'Blog'
                 },
                 {
-                  icon: <User className="mr-2 h-4 w-4" />,
+                  icon: null,
                   text: 'Social media app'
                 },
                 {
-                  icon: <CreditCard className="mr-2 h-4 w-4" />,
+                  icon: null,
                   text: 'Events manager'
                 },
                 {
-                  icon: <CreditCard className="mr-2 h-4 w-4" />,
+                  icon: null,
                   text: 'Entertainment / Gaming'
                 },
                 {
-                  icon: <CreditCard className="mr-2 h-4 w-4" />,
+                  icon: null,
                   text: 'Streaming'
                 },
               ],
@@ -539,6 +541,10 @@ export default function Page({}) {
                 },
                 {
                   icon: null,
+                  text: 'Tinder'
+                },
+                {
+                  icon: null,
                   text: 'Spotify'
                 },
               ],
@@ -576,11 +582,11 @@ export default function Page({}) {
                 group: 'Database',
                 items: [
                   {
-                    icon: <User className="mr-2 h-4 w-4" />,
+                    icon: null,
                     text: 'DynamoDB'
                   },
                   {
-                    icon: <CreditCard className="mr-2 h-4 w-4" />,
+                    icon: null,
                     text: 'S3'
                   },
                 ],
@@ -589,7 +595,7 @@ export default function Page({}) {
                 group: 'Authentication',
                 items: [
                   {
-                    icon: <User className="mr-2 h-4 w-4" />,
+                    icon: null,
                     text: 'Google OAuth'
                   },
                 ],
@@ -598,7 +604,7 @@ export default function Page({}) {
                 group: 'Payment',
                 items: [
                   {
-                    icon: <User className="mr-2 h-4 w-4" />,
+                    icon: null,
                     text: 'Stripe'
                   },
                 ],
@@ -636,7 +642,7 @@ export default function Page({}) {
             </div>
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="curious person" id="survey-q5-4" />
-              <Label htmlFor="survey-q5-4">curious person</Label>
+              <Label htmlFor="survey-q5-4">Curious person</Label>
             </div>
         </RadioGroup>
       </CardContent>,
@@ -883,6 +889,8 @@ export default function Page({}) {
   useEffect(() => {
     if(deployStageComplete) {
 
+      setBuildStageProgressVal(20)
+
       console.log('reviewOpts: ', reviewOpts.map(({ inputName = '', endpoint: { method = '', url = '' }}) => ({
         url: `${deployedAPIURL}${url}/${inputName}`,
         method,
@@ -903,6 +911,7 @@ export default function Page({}) {
           console.log('bodies: ', bodies)
           // @ts-ignore
           setBuildStageProgress((prevState) => bodies.map((v, i) => v ? { name: 'Success', variant: 'primary' } : prevState[i] ))
+          setBuildStageProgressVal(100)
           setBuildStage(0)
         })
       });
