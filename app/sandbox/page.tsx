@@ -105,7 +105,10 @@ export default function Page({}) {
         'Syncing:: payload',
         'Retry AWS...',
         'Syncing:: resources',
-        'Retry AWS...'
+        'Retry AWS...',
+        'Waiting for server',
+        'Handling endpoints...',
+        'Generating link',
       ],
       variant: 'outline',
     },
@@ -298,8 +301,8 @@ export default function Page({}) {
   const buildContent = [
     {
       id: 'build-content-q-1',
-      question: 'Building the resources and services for your API',
-      description: 'Takes about 2 - 5 minutes.',
+      question: 'Deploying resources and services to your API',
+      description: 'It\'ll take less than 2 minutes to deploy resources to your link',
       answerComponent: (disableForm: boolean) => <CardContent className="pl-[50px]">
         <div style={{ marginBottom: 10 }}>
           {reviewOpts.map(({ name = '', inputName = '', description = '', selected = false}, i: any, a: any) => <>
@@ -312,7 +315,7 @@ export default function Page({}) {
               </div>
             </div>}
           </>)}
-          {reviewOpts.length > 0 && <Progress value={buildStageProgressVal} className="mb-[10px] h-[10px] w-[100%]" />}
+          {reviewOpts.length > 0 && <Progress value={buildStageProgressVal} className="my-[10px] h-[10px] w-[100%]" />}
           {reviewOpts.length === 0 && <Badge
             variant="outline"
             style={{ borderRadius: 4, padding: '4px 8px' }}
@@ -336,7 +339,7 @@ export default function Page({}) {
   const deployContent = [
     {
       id: 'deploy-content-q-1',
-      question: 'Creating your custom API',
+      question: 'Building your API link',
       description: 'Takes about 2 - 5 minutes. We\'ll email you your API link when were done.',
       answerComponent: (disableForm: boolean) => <CardContent className="pl-[50px]">
         <div className="mb-[15px] flex flex-row flex-wrap">
@@ -830,7 +833,7 @@ export default function Page({}) {
     },
     {
       id: 'container-deploy',
-      name: 'Deploy',
+      name: 'Build',
       content: deployContent,
       stage: deployStage,
       lastStage: 0,
@@ -838,7 +841,7 @@ export default function Page({}) {
       disableUnselectedStages: false,
       setStage: () => {},
       submit: {
-        text: 'Build',
+        text: 'Deploy',
         handle: () => {
           setDeployStage(null)
           setDeployStageComplete(true)
@@ -849,7 +852,7 @@ export default function Page({}) {
     
     {
       id: 'container-build',
-      name: 'Build',
+      name: 'Deploy',
       content: buildContent,
       stage: buildStage,
       lastStage: 0,
@@ -860,7 +863,7 @@ export default function Page({}) {
         text: 'Try out my API',
         href: 'https://webhub.mintlify.app/quickstart',
         handle: () => {
-          setBuildStage(null)
+          // setBuildStage(null)
           setBuildStageComplete(true)
         }
       }
@@ -954,15 +957,24 @@ export default function Page({}) {
 
   useEffect(() => {
     if (deployStageProgress < 100 && deployStageProgress > 0) {
-      const val = deployStageProgress + ((100 - deployStageProgress) / 4)
+      const val = deployStageProgress + ((100 - deployStageProgress) / 12)
       setTimeout((newDeployStageProgress) => {
         setDeployStageProgress((prevState) => (prevState === 0 || prevState === 100) ? prevState : newDeployStageProgress)
         if (deployStageMessage.stage < deployStageMessages.deploy.stage.length - 1) {
           setDeployStageMessage(({ type, stage: prevStage }) => ((type === 'error' || type === 'success') ? { type, stage: prevStage } : { type: 'deploy', stage: prevStage + 1 }))
         }
-      }, 15000, val)
+      }, 5000, val)
     }
   }, [deployStageProgress])
+
+  useEffect(() => {
+    if (buildStageProgressVal < 100 && buildStageProgressVal > 0) {
+      const val = buildStageProgressVal + ((100 - buildStageProgressVal) / 12)
+      setTimeout((newDeployStageProgress) => {
+        setDeployStageProgress((prevState) => (prevState === 0 || prevState === 100) ? prevState : newDeployStageProgress)
+      }, 5000, val)
+    }
+  }, [buildStageProgressVal])
 
   useEffect(() => {
     const email1 = {
@@ -1196,14 +1208,14 @@ export default function Page({}) {
             }),
             chevron,
             step({
-              text: '3. Deploy',
+              text: '3. Build',
               selected: selectedStep === 2,
               done: deployStageComplete,
               onClick: surveyStageComplete && reviewStageComplete ? () => setSelectedStep(2) : () => {}
             }),
             chevron,
             step({
-              text: '4. Build',
+              text: '4. Deploy',
               selected: selectedStep === 3,
               done: buildStageComplelte,
               onClick: surveyStageComplete && reviewStageComplete && deployStageComplete ? () => setSelectedStep(3) : () => {}
