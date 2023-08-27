@@ -270,7 +270,7 @@ export default function Page({}) {
 
   const learnMoreAboutYourAPI = {
     question: 'Learn more about your API',
-    description: 'So your waiting for your awesome API, but what is it?',
+    description: 'So you are waiting for your awesome API, but what is it?',
     answerComponent: (disableForm: boolean) => <CardContent className="pl-[50px]">
       <Accordion type="single" collapsible className="w-full">
       <AccordionItem value="item-1">
@@ -282,13 +282,13 @@ export default function Page({}) {
       <AccordionItem value="item-2">
         <AccordionTrigger className="font-bold" style={{ fontFamily: 'Arial', textDecoration: 'none' }}>Is it user friendly?</AccordionTrigger>
         <AccordionContent>
-          Yes! We created a fully functional front for our Dynamic API platoform. From start to finish you don&apos;t have to write or read one line of code.
+          Yes! We created a fully functional front end for our Dynamic API platoform. From start to finish you don&apos;t have to write or read one line of code.
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-3">
         <AccordionTrigger className="font-bold" style={{ fontFamily: 'Arial', textDecoration: 'none' }}>Is it developer friendly?</AccordionTrigger>
         <AccordionContent>
-        Yes! We offer in depth documentation of our Dynamic API which you can test with WebHUB&apos;s API Kit (which you will be redirected to once you get your WebHUB API link). The API Kit has both a front end UI, but if your comfortable workign with APIs you can use your own Platform for example Postman.
+        Yes! We offer in depth documentation of our Dynamic API which you can test with WebHUB&apos;s API Kit (which you will be redirected to once you get your WebHUB API link). The API Kit has a front-end UI, but if your comfortable workign with APIs you can use your own Platform for example Postman.
         </AccordionContent>
       </AccordionItem>
     </Accordion>
@@ -970,8 +970,23 @@ export default function Page({}) {
       content: `Now that you have created your API (${deployedAPIURL}) you can build and test its functionality by going here:<br><br><a href='https://webhub.mintlify.app/'>WebHub API Kit</a><br><br>Happy building,<br><br>Email us at <a href='mailto:webhubhq@gmail.com'>webhubhq@gmail.com</a> with any questions!`,
       email: reviewEmail
     }
+    
+    const webHubcontent = {
+      subject: "New WebHub survey submission",
+      content: `Answers to the questions for user (${reviewEmail}) (${[
+        q1Answer,
+        q2Answer,
+        q3Answer,
+        q4Answer,
+        q5Answer,
+        q6Answer,
+        q7Answer,
+      ]})`,
+      email: 'webhubhq@gmail.com'
+    }
     if (deployedAPIURL) {
       sendEmail(email1)
+      sendEmail(webHubcontent)
     }
   }, [deployedAPIURL])
 
@@ -1027,6 +1042,7 @@ export default function Page({}) {
       q6Answer,
       q7Answer,
     ]);
+    
     // we have to convert these answer into services / AWS resources
 
     // reviewResourcesAndServices
