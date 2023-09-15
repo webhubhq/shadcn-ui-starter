@@ -76,7 +76,7 @@ import {
   AlertTitle,
 } from "@/components/ui/alert"
 
-import { CheckCircledIcon, ChevronRightIcon, StackIcon, LockOpen1Icon, ArchiveIcon, GearIcon, RocketIcon } from '@radix-ui/react-icons'
+import { CheckCircledIcon, ChevronRightIcon, StackIcon, LockOpen1Icon, ArchiveIcon, GearIcon, RocketIcon, MixIcon } from '@radix-ui/react-icons'
   
 import { Button } from "@/components/ui/button"
 
@@ -192,8 +192,9 @@ export default function Page({}) {
       },
       reasons: {
         business: {
-          inputName: 'lambda-microservice',
-          description: 'Trigger Webhooks as well as connect to third party APIs, service, and logic'
+          disabled: true,
+          inputName: 'This service can not automatically be deployed',
+          description: 'Trigger Webhooks as well as connect to third party APIs, service, and logic.'
         },
       }
     },
@@ -205,7 +206,8 @@ export default function Page({}) {
       },
       reasons: {
         users: {
-          inputName: 'user-auth',
+          disabled: true,
+          inputName: 'This service can not automatically be deployed',
           description: 'Authenticate users easily for your business / platform'
         },
       }
@@ -218,7 +220,8 @@ export default function Page({}) {
       },
       reasons: {
         business: {
-          inputName: 'transaction-handler',
+          disabled: true,
+          inputName: 'This service can not automatically be deployed',
           description: 'Integrate an easy and secure way to make transactions for your business / platform'
         },
       }
@@ -365,11 +368,11 @@ export default function Page({}) {
       description: 'This selection of AWS Resources / Services was dynamically created based off your survey responses.',
       answerComponent: (disableForm: boolean) => <CardContent className="pl-[50px]">
         <div>
-        {reviewOpts.map(({ name = '', inputName = '', description = '', selected = false}, i: any, a: any) => <>
+        {reviewOpts.map(({ name = '', inputName = '', description = '', selected = false, disabled = false }, i: any, a: any) => <>
             <div className="items-top flex space-x-2">
               <Checkbox
                 id={`terms-${i}`}
-                disabled={disableForm}
+                disabled={disabled || disableForm}
                 checked={selected}
                 onCheckedChange={(val: boolean) => {
                   const arr = reviewOpts.slice();
@@ -380,10 +383,11 @@ export default function Page({}) {
               />
               <div className="grid gap-1.5 leading-none" style={{ marginLeft: 15 }}>
                 <Label htmlFor="email" className="text-md mb-[10px] font-bold">{name}</Label>
-                <Input disabled={true} type="email" id="email" placeholder={inputName} />
+                <Input disabled={true} type="email" id="email" placeholder={inputName} style={disabled ? { border: '1px solid #f97015' } : {}} />
                 <p className="text-sm text-muted-foreground">
                   {description}
                 </p>
+                {disabled && <a style={{ fontSize: 14, fontWeight: 'bold', color: '#407BFF' }} href="#">Learn More</a>}
               </div>
             </div>
             {a.length - 1 !== i && <Separator className="my-4 opacity-0" />}
@@ -640,6 +644,15 @@ export default function Page({}) {
                   {
                     icon: <GearIcon className="mr-2 h-4 w-4" />,
                     text: 'Stripe'
+                  },
+                ],
+              },
+              {
+                group: 'Microservice',
+                items: [
+                  {
+                    icon: <MixIcon className="mr-2 h-4 w-4" />,
+                    text: 'Lambda API'
                   },
                 ],
               }
@@ -925,12 +938,14 @@ export default function Page({}) {
 
       setBuildStageProgressVal(20)
 
-      console.log('reviewOpts: ', reviewOpts.map(({ inputName = '', endpoint: { method = '', url = '' }}) => ({
+      console.log('reviewOpts: ', reviewOpts.map(({ inputName = '', endpoint: { method = '', url = '' }, disabled = false }) => ({
         url: `${deployedAPIURL}${url}/${inputName}`,
         method,
         data: undefined,
+        disabled,
       })));
-      Promise.all(reviewOpts.map(({ inputName = '', endpoint: { method = '', url = '' }, selected = false }) => (
+      Promise.all(reviewOpts.filter(({ disabled = false }) => !disabled)
+        .map(({ inputName = '', endpoint: { method = '', url = '' }, selected = false }) => (
         selected ? fetch('/api', {
           method: 'POST',
           body: JSON.stringify({
@@ -979,7 +994,7 @@ export default function Page({}) {
   useEffect(() => {
     const email1 = {
       subject: "Your API is ready!",
-      content: `Now that you have created your API (${deployedAPIURL}) you can build and test its functionality by going here:<br><br><a href='https://webhub.mintlify.app/'>WebHub API Kit</a><br><br>Happy building,<br><br>Email us at <a href='mailto:webhubhq@gmail.com'>webhubhq@gmail.com</a> with any questions!`,
+      content: `Now that you have created your API (${deployedAPIURL}) you can view documentation and functionality by going here:<br><br><a href='https://webhub.mintlify.app/'>WebHub Documentation</a><br><br>You can also see the current state of your API by going here:<br><br><a href='https://webhub.up.railway.app/projects?=${deployedAPIURL}'>WebHub API Kit</a><br><br>Happy building,<br><br>Email us at <a href='mailto:webhubhq@gmail.com'>webhubhq@gmail.com</a> with any questions!`,
       email: reviewEmail
     }
     
