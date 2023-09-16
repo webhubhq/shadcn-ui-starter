@@ -994,7 +994,7 @@ export default function Page({}) {
   useEffect(() => {
     const email1 = {
       subject: "Your API is ready!",
-      content: `Now that you have created your API (${deployedAPIURL}) you can view documentation and functionality by going here:<br><br><a href='https://webhub.mintlify.app/'>WebHub Documentation</a><br><br>You can also see the current state of your API by going here:<br><br><a href='https://webhub.up.railway.app/projects?=${deployedAPIURL}'>WebHub API Kit</a><br><br>Happy building,<br><br>Email us at <a href='mailto:webhubhq@gmail.com'>webhubhq@gmail.com</a> with any questions!`,
+      content: `Now that you have created your API (${deployedAPIURL}) you can view documentation and functionality by going here:<br><br><a href='https://webhub.mintlify.app/'>WebHub Documentation</a><br><br>You can also see the current state of your API by going here:<br><br><a href='https://webhub.up.railway.app/projects?url=${deployedAPIURL}'>WebHub API Kit</a><br><br>Happy building,<br><br>Email us at <a href='mailto:webhubhq@gmail.com'>webhubhq@gmail.com</a> with any questions!`,
       email: reviewEmail
     }
     
