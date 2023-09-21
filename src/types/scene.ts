@@ -36,7 +36,7 @@ export interface Node {
   labelHeight: number;
   position: Coords;
   isSelected: boolean;
-  loading: Loading;
+  loading?: Loading;
 }
 
 export type ConnectorAnchor =
@@ -61,7 +61,7 @@ export interface Connector {
     origin: Coords;
     areaSize: Size;
   };
-  loading: Loading;
+  loading?: Loading;
 }
 
 export interface Rectangle {
@@ -71,7 +71,7 @@ export interface Rectangle {
   from: Coords;
   to: Coords;
   label?: string | undefined;
-  loading: Loading;
+  loading?: Loading;
 }
 
 export type SceneItem = Node | Connector | Rectangle;

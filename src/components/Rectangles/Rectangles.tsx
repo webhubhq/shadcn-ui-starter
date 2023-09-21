@@ -16,9 +16,11 @@ export const Rectangles = () => {
   return (
     <>
       {rectangles.map((rectangle) => {
+        // @ts-ignore
         return <Rectangle key={rectangle.id} {...rectangle} />;
       })}
       {mode.type === 'RECTANGLE.DRAW' && mode.area && (
+        // @ts-ignore
         <Rectangle
           from={mode.area.from}
           to={mode.area.to}

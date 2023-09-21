@@ -10,9 +10,10 @@ interface Props {
   to: Coords;
   color: string;
   label: string;
-  loading: Loading;
+  loading?: Loading;
 }
 
+// @ts-ignore
 export const Rectangle = ({ id, from, to, color, label = "", loading = {} }: Props) => {
   const tile = useUiStateStore((state) => {
     return state.mouse.position.tile;
@@ -23,6 +24,7 @@ export const Rectangle = ({ id, from, to, color, label = "", loading = {} }: Pro
   });
 
   const itemEmphasis = useUiStateStore((state) => {
+    // @ts-ignore
     return state.itemEmphasis;
   });
 

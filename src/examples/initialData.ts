@@ -97,7 +97,7 @@ export const initialData: InitialData = {
     {
       id: 'client-endpoints',
       iconId: 'desktop',
-      label: 'Clients',
+      label: 'Front End Websites',
       // labelHeight: 100,
       position: {
         x: 0,
@@ -328,7 +328,7 @@ export const initialData: InitialData = {
       style: ConnectorStyleEnum.DASHED,
       width: 10,
       anchors: [{ nodeId: 'websockets' }, { nodeId: 'websocket-block' }],
-      color: customVars.diagramPalette.yellow,
+      color: customVars.diagramPalette.grey,
       loading: {
         delay: 5500,
         duration: 1000,
@@ -574,7 +574,7 @@ export const initialData: InitialData = {
     },
     {
       id: 'aws-websockets-group',
-      color: customVars.diagramPalette.grey,
+      color: customVars.diagramPalette.yellow,
       from: {
         x: -10,
         y: 4

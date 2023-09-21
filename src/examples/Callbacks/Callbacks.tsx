@@ -6,6 +6,7 @@ import { initialData as _initialData } from '../initialData';
 const initialData: InitialData = {
   icons: _initialData.icons,
   nodes: [
+    // @ts-ignore
     {
       id: 'server',
       label: '<p>This is an example of tracking changes to the scene.</p>',

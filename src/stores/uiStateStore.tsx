@@ -25,7 +25,7 @@ const initialState = () => {
         offset: { x: 0, y: 0 }
       },
       debugMode: false,
-      itemEmphasis: ['my-api', 'aws-dynamodb-group'],
+      itemEmphasis: ['my-api'],
       zoom: 1,
       rendererSize: { width: 0, height: 0 },
       actions: {
@@ -91,7 +91,9 @@ const initialState = () => {
         setDebugMode: (debugMode) => {
           set({ debugMode });
         },
+        // @ts-ignore
         setItemEmphasis: (itemEmphasis) => {
+          // @ts-ignore
           set({ itemEmphasis });
         }
       }

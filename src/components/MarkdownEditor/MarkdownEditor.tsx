@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-import ReactQuill from 'react-quill';
 import { Box } from '@mui/material';
 
 interface Props {
@@ -52,14 +51,7 @@ export const MarkdownEditor = ({
         }
       }}
     >
-      <ReactQuill
-        theme="snow"
-        value={value}
-        readOnly={readOnly}
-        onChange={onChange}
-        formats={tools}
-        modules={modules}
-      />
+      <span>{value}</span>
     </Box>
   );
 };

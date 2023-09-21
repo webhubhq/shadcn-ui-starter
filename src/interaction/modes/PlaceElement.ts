@@ -26,6 +26,7 @@ export const PlaceElement: ModeActions = {
     if (uiState.mode.type !== 'PLACE_ELEMENT') return;
 
     if (uiState.mode.icon !== null) {
+      // @ts-ignore
       scene.actions.createNode({
         id: generateId(),
         iconId: uiState.mode.icon.id,

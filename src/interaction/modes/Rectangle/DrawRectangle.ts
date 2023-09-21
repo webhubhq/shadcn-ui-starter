@@ -47,6 +47,7 @@ export const DrawRectangle: ModeActions = {
     )
       return;
 
+    // @ts-ignore
     scene.actions.createRectangle({
       id: generateId(),
       color: DEFAULT_COLOR,

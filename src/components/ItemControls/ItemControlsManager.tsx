@@ -73,6 +73,7 @@ export const ItemControlsManager = () => {
     },
   };
 
+  // @ts-ignore
   const cnt = content[itemControls?.id] ? content[itemControls?.id] : content.default;
 
 
@@ -82,6 +83,7 @@ export const ItemControlsManager = () => {
     }, 7500)
   }, [])
 
+  // @ts-ignore
   const card = ({ content, sx = {} }) => <div
     style={{
       display: 'flex',

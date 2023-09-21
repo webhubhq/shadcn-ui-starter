@@ -18,7 +18,6 @@ import {
 } from 'src/types';
 import { sceneToSceneInput } from 'src/utils';
 import { useSceneStore, SceneProvider } from 'src/stores/sceneStore';
-import { GlobalStyles } from 'src/styles/GlobalStyles';
 import { Renderer } from 'src/components/Renderer/Renderer';
 import { LabelContainer } from 'src/components/Nodes/Node/LabelContainer';
 import { useWindowUtils } from 'src/hooks/useWindowUtils';
@@ -72,7 +71,9 @@ const App = ({
     console.log('uiItemControls 1: ', uiItemControls)
     setSelectedElement(uiItemControls)
 
+    // @ts-ignore
     if (uiItemControls?.node?.position) {
+      // @ts-ignore
       scrollToTile(uiItemControls?.node?.position)
     }
 
@@ -120,6 +121,7 @@ const App = ({
 
    $('#content-container').bind('mousewheel', function(e){
       console.log('window: ', window.innerHeight);
+      // @ts-ignore
       const dy = e?.originalEvent?.wheelDelta || 0
       if(dy / 120 > 0) {
         console.log('scrolling up: ', dy);
@@ -137,7 +139,6 @@ const App = ({
 
   return (
     <div style={{ position: 'relative', width: '100vw', height: '100vh', overflowY: 'hidden' }}>
-      <GlobalStyles />
       <Box
         sx={{
           width: width ?? '100%',
@@ -181,12 +182,19 @@ const useIsoflow = () => {
 export default Isoflow;
 
 export {
+  // @ts-ignore
   InitialData,
+  // @ts-ignore
   Scene,
+  // @ts-ignore
   SceneInput,
+  // @ts-ignore
   IconInput,
+  // @ts-ignore
   NodeInput,
+  // @ts-ignore
   RectangleInput,
+  // @ts-ignore
   ConnectorInput,
   useIsoflow,
   LabelContainer,

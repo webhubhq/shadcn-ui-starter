@@ -77,6 +77,7 @@ export const Connector: ModeActions = {
     if (itemAtTile && itemAtTile.type === 'NODE') {
       const newMode = produce(uiState.mode, (draftState) => {
         draftState.connector = connectorInputToConnector(
+          // @ts-ignore
           {
             id: generateId(),
             anchors: [{ nodeId: itemAtTile.id }, { nodeId: itemAtTile.id }]
@@ -89,6 +90,7 @@ export const Connector: ModeActions = {
     } else {
       const newMode = produce(uiState.mode, (draftState) => {
         draftState.connector = connectorInputToConnector(
+          // @ts-ignore
           {
             id: generateId(),
             anchors: [

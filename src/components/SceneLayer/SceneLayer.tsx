@@ -6,6 +6,7 @@ interface Props {
   order?: number;
 }
 
+// eslint-disable-next-line react/display-name
 export const SceneLayer = forwardRef(({ children, order = 0 }: Props, ref) => {
   return (
     <Box

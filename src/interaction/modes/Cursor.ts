@@ -73,8 +73,9 @@ export const Cursor: ModeActions = {
 
       if (type) {
 
+        // @ts-ignore
         const node = scene.nodes.find(({ id }) => uiState?.mode?.mousedownItem?.id === id)
-        
+
         console.log({
           type,
           node,

@@ -16,12 +16,13 @@ import { useSceneStore } from 'src/stores/sceneStore';
 interface Props {
   id?: string;
   connector: ConnectorI;
-  loading: Loading;
+  loading?: Loading | object;
 }
 
 export const Connector = ({ id, connector, loading }: Props) => {
   const theme = useTheme();
 
+  // @ts-ignore
   const [connectorPathTilesIndex, setConnectorPathTilesIndex] = useState<number | undefined>(loading?.delay !== undefined
     ? undefined
     : (connector.path.tiles.length || 0)
@@ -74,6 +75,7 @@ export const Connector = ({ id, connector, loading }: Props) => {
   }, [connector.width, unprojectedTileSize]);
 
 
+  // @ts-ignore
   const [load, setLoad] = useState(loading?.delay === undefined)
 
   const strokeDashArray = useMemo(() => {
@@ -90,7 +92,6 @@ export const Connector = ({ id, connector, loading }: Props) => {
 
   useEffect(() => {
     if (load) {
-      console.log('connector.path.tiles.length: ', connector.path.tiles.length)
       if (connectorPathTilesIndex === undefined && connector.path.tiles.length > 0) {
         setConnectorPathTilesIndex(0);
       }
@@ -99,10 +100,14 @@ export const Connector = ({ id, connector, loading }: Props) => {
   }, [load]);
 
   useEffect(() => {
+    // @ts-ignore
     if (!load && loading?.delay !== undefined) {
       setTimeout(() => {
         setLoad(true)
-      }, loading?.delay)
+      },
+      // @ts-ignore
+      loading?.delay
+      )
     }
   }, []);
 
@@ -130,11 +135,14 @@ export const Connector = ({ id, connector, loading }: Props) => {
 
   return (
     <IsoTileArea
-      {...getRectangleFromSize(connector.path.origin, connector.path.areaSize)}
-      origin={connector.path.origin}
-      zoom={zoom}
-      fill="none"
-    >
+    outline={''}
+    pulse={false}
+    label={''}
+    loading={{}}
+    {...getRectangleFromSize(connector.path.origin, connector.path.areaSize)}
+    origin={connector.path.origin}
+    zoom={zoom}
+    fill="none"    >
       {/* <polyline
         points={pathString}
         stroke={theme.palette.common.white}

@@ -14,6 +14,7 @@ export const scene: SceneInput = {
     }
   ],
   nodes: [
+    // @ts-ignore
     {
       id: 'node1',
       label: 'Node1',
@@ -23,6 +24,7 @@ export const scene: SceneInput = {
         y: 0
       }
     },
+    // @ts-ignore
     {
       id: 'node2',
       label: 'Node2',
@@ -32,6 +34,7 @@ export const scene: SceneInput = {
         y: 1
       }
     },
+    // @ts-ignore
     {
       id: 'node3',
       label: 'Node3',
@@ -43,14 +46,17 @@ export const scene: SceneInput = {
     }
   ],
   connectors: [
+    // @ts-ignore
     {
       id: 'connector1',
       anchors: [{ nodeId: 'node1' }, { nodeId: 'node2' }]
     },
+    // @ts-ignore
     {
       id: 'connector2',
       anchors: [{ nodeId: 'node2' }, { nodeId: 'node3' }]
     }
   ],
+  // @ts-ignore
   rectangles: [{ id: 'rectangle1', from: { x: 0, y: 0 }, to: { x: 2, y: 2 } }]
 };

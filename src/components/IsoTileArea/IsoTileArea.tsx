@@ -27,7 +27,7 @@ interface Props {
   outline: string;
   pulse: boolean;
   label: string;
-  loading: Loading;
+  loading?: Loading | object;
   isCursor?: boolean;
   children?: React.ReactNode;
 }
@@ -101,19 +101,24 @@ export const IsoTileArea = ({
   const w = size.width * UNPROJECTED_TILE_SIZE * zoom;
   const h = size.height * UNPROJECTED_TILE_SIZE * zoom;
 
+  // @ts-ignore
   const [load, setLoad] = useState(loading?.delay === undefined)
 
   useEffect(() => {
+    // @ts-ignore
     if (!load && loading?.delay !== undefined) {
       setTimeout(() => {
         setLoad(true)
-      }, loading?.delay)
+      },
+      // @ts-ignore
+      loading?.delay)
     }
   }, []);
 
   return (
     <Box
       className={pulse && 'pulse-opacity'}
+      // @ts-ignore
       sx={{
         transition: !isCursor && 'all 1s',
         position: 'absolute',
@@ -124,6 +129,7 @@ export const IsoTileArea = ({
     >
       <Box
         sx={{
+          // @ts-ignore
           transition: loading?.duration && `opacity ${loading?.duration}ms`,
           opacity: load ? 1 : 0,
         }}

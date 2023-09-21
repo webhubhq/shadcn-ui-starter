@@ -23,7 +23,8 @@ export const Cursor = () => {
       cornerRadius={10 * zoom}
       outline="none"
       isCursor
-      label=""
+      label="" pulse={false}
+      loading={{}}
     />
   );
 };

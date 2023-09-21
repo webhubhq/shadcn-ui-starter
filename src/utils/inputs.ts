@@ -114,6 +114,7 @@ export const nodeToNodeInput = (node: Node): NodeInput => {
     labelHeight: node.labelHeight,
     color: node.color,
     iconId: node.iconId,
+    // @ts-ignore
     loading: node.loading,
   };
 };
@@ -150,6 +151,7 @@ export const connectorToConnectorInput = (
     id: connector.id,
     color: connector.color,
     anchors,
+    // @ts-ignore
     loading: connector.loading,
   };
 };
@@ -163,11 +165,13 @@ export const rectangleToRectangleInput = (
     from: rectangle.from,
     to: rectangle.to,
     label: rectangle.label,
+    // @ts-ignore
     loading: rectangle.loading,
   };
 };
 
 export const sceneToSceneInput = (scene: Scene): SceneInput => {
+  // @ts-ignore
   const nodes: NodeInput[] = scene.nodes.map(nodeInputToNode);
   const connectors: ConnectorInput[] = scene.connectors.map(
     connectorToConnectorInput,

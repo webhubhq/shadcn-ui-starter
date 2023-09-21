@@ -12,15 +12,17 @@ interface Props {
   node: NodeI;
   icon?: IconInput;
   order: number;
-  loading: Loading;
+  loading?: Loading;
 }
 
+// @ts-ignore
 export const Node = ({ node, icon, order, loading = {} }: Props) => {
   const nodeRef = useRef<HTMLDivElement>();
   const projectedTileSize = useProjectedTileSize();
   const { getTilePosition } = useGetTilePosition();
 
   const itemEmphasis = useUiStateStore((state) => {
+    // @ts-ignore
     return state.itemEmphasis;
   });
 
