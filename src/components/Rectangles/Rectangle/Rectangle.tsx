@@ -1,23 +1,29 @@
 import React from 'react';
-import { Coords } from 'src/types';
+import { Coords, Loading } from 'src/types';
 import { IsoTileArea } from 'src/components/IsoTileArea/IsoTileArea';
 import { useUiStateStore } from 'src/stores/uiStateStore';
 import { getColorVariant } from 'src/utils';
 
 interface Props {
+  id: string;
   from: Coords;
   to: Coords;
   color: string;
   label: string;
+  loading: Loading;
 }
 
-export const Rectangle = ({ from, to, color, label = "" }: Props) => {
+export const Rectangle = ({ id, from, to, color, label = "", loading = {} }: Props) => {
   const tile = useUiStateStore((state) => {
     return state.mouse.position.tile;
   });
 
   const zoom = useUiStateStore((state) => {
     return state.zoom;
+  });
+
+  const itemEmphasis = useUiStateStore((state) => {
+    return state.itemEmphasis;
   });
 
   const isCursorInRectangle = () => {
@@ -51,6 +57,8 @@ export const Rectangle = ({ from, to, color, label = "" }: Props) => {
       }}
       outline={isCursorInRectangle() ? 'active' : 'none'}
       label={label}
+      loading={loading}
+      pulse={itemEmphasis.includes(id)}
     />
   );
 };

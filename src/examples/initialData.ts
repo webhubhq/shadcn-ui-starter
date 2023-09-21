@@ -17,7 +17,11 @@ export const initialData: InitialData = {
       position: {
         x: 0,
         y: 0
-      }
+      },
+      loading: {
+        delay: 500,
+        duration: 1000,
+      },
     },
     {
       id: 'authentication',
@@ -27,7 +31,11 @@ export const initialData: InitialData = {
       position: {
         x: 6,
         y: 3
-      }
+      },
+      loading: {
+        delay: 2000,
+        duration: 1000,
+      },
     },
     {
       id: 'card-terminal',
@@ -37,7 +45,11 @@ export const initialData: InitialData = {
       position: {
         x: 6,
         y: -2
-      }
+      },
+      loading: {
+        delay: 2000,
+        duration: 1000,
+      },
     },
     {
       id: 'data-storage',
@@ -48,7 +60,11 @@ export const initialData: InitialData = {
         x: 0,
         y: -6
       },
-      color: customVars.diagramPalette.blue
+      color: customVars.diagramPalette.blue,
+      loading: {
+        delay: 2000,
+        duration: 1000,
+      },
     },
     {
       id: 'aws-lambdas',
@@ -58,17 +74,25 @@ export const initialData: InitialData = {
       position: {
         x: -6,
         y: -3
-      }
+      },
+      loading: {
+        delay: 2000,
+        duration: 1000,
+      },
     },
     {
       id: 'websockets',
       iconId: 'cache',
-      label: 'Real Time Connections',
+      label: 'Real Time Communication',
       // labelHeight: 100,
       position: {
         x: -6,
         y: 5
-      }
+      },
+      loading: {
+        delay: 2000,
+        duration: 1000,
+      },
     },
     {
       id: 'client-endpoints',
@@ -78,7 +102,11 @@ export const initialData: InitialData = {
       position: {
         x: 0,
         y: 6
-      }
+      },
+      loading: {
+        delay: 2000,
+        duration: 1000,
+      },
     },
     {
       id: 'webflow',
@@ -88,7 +116,11 @@ export const initialData: InitialData = {
       position: {
         x: 0,
         y: 11
-      }
+      },
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     {
       id: 'react-nextjs',
@@ -98,7 +130,11 @@ export const initialData: InitialData = {
       position: {
         x: -3,
         y: 11
-      }
+      },
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     {
       id: 'wix',
@@ -108,7 +144,11 @@ export const initialData: InitialData = {
       position: {
         x: 3,
         y: 11
-      }
+      },
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     {
       id: 'websocket-block',
@@ -118,7 +158,11 @@ export const initialData: InitialData = {
       position: {
         x: -11,
         y: 5
-      }
+      },
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     {
       id: 'lambda-1',
@@ -128,7 +172,11 @@ export const initialData: InitialData = {
       position: {
         x: -11,
         y: 0
-      }
+      },
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     {
       id: 'lambda-2',
@@ -138,7 +186,11 @@ export const initialData: InitialData = {
       position: {
         x: -13,
         y: -3
-      }
+      },
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     {
       id: 'lambda-3',
@@ -148,7 +200,11 @@ export const initialData: InitialData = {
       position: {
         x: -11,
         y: -6
-      }
+      },
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     {
       id: 'aws-s3-bucket',
@@ -158,7 +214,11 @@ export const initialData: InitialData = {
       position: {
         x: -5,
         y: -11
-      }
+      },
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     {
       id: 'dynamodb-3',
@@ -168,7 +228,11 @@ export const initialData: InitialData = {
       position: {
         x: 8,
         y: -11
-      }
+      },
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     {
       id: 'dynamodb-2',
@@ -178,7 +242,11 @@ export const initialData: InitialData = {
       position: {
         x: 3,
         y: -11
-      }
+      },
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     {
       id: 'dynamodb-1',
@@ -188,7 +256,11 @@ export const initialData: InitialData = {
       position: {
         x: 5,
         y: -15
-      }
+      },
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     {
       id: 'stripe-api-payment',
@@ -197,7 +269,11 @@ export const initialData: InitialData = {
       position: {
         x: 11,
         y: -2
-      }
+      },
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     {
       id: 'google-oauthentication',
@@ -206,7 +282,11 @@ export const initialData: InitialData = {
       position: {
         x: 11,
         y: 3
-      }
+      },
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     }
   ],
   connectors: [
@@ -215,84 +295,132 @@ export const initialData: InitialData = {
       style: ConnectorStyleEnum.DASHED,
       width: 10,
       anchors: [{ nodeId: 'client-endpoints' }, { nodeId: 'wix' }],
-      color: customVars.diagramPalette.grey
+      color: customVars.diagramPalette.grey,
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     {
       id: '2',
       style: ConnectorStyleEnum.DASHED,
       width: 10,
       anchors: [{ nodeId: 'client-endpoints' }, { nodeId: 'webflow' }],
-      color: customVars.diagramPalette.grey
+      color: customVars.diagramPalette.grey,
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     {
       id: '3',
       style: ConnectorStyleEnum.DASHED,
       width: 10,
       anchors: [{ nodeId: 'client-endpoints' }, { nodeId: 'react-nextjs' }],
-      color: customVars.diagramPalette.grey
+      color: customVars.diagramPalette.grey,
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     {
       id: '4',
       style: ConnectorStyleEnum.DASHED,
       width: 10,
       anchors: [{ nodeId: 'websockets' }, { nodeId: 'websocket-block' }],
-      color: customVars.diagramPalette.yellow
+      color: customVars.diagramPalette.yellow,
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     {
       id: '5',
       style: ConnectorStyleEnum.DASHED,
       width: 10,
       anchors: [{ nodeId: 'aws-lambdas' }, { nodeId: 'lambda-1' }],
-      color: customVars.diagramPalette.grey
+      color: customVars.diagramPalette.grey,
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     {
       id: '6',
       style: ConnectorStyleEnum.DASHED,
       width: 10,
       anchors: [{ nodeId: 'aws-lambdas' }, { nodeId: 'lambda-2' }],
-      color: customVars.diagramPalette.grey
+      color: customVars.diagramPalette.grey,
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     {
       id: '7',
       style: ConnectorStyleEnum.DASHED,
       width: 10,
       anchors: [{ nodeId: 'aws-lambdas' }, { nodeId: 'lambda-3' }],
-      color: customVars.diagramPalette.grey
+      color: customVars.diagramPalette.grey,
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     {
       id: '8',
       style: ConnectorStyleEnum.DASHED,
       width: 10,
       anchors: [{ nodeId: 'data-storage' }, { nodeId: 'aws-s3-bucket' }],
-      color: customVars.diagramPalette.grey
+      color: customVars.diagramPalette.grey,
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     {
       id: '9',
       style: ConnectorStyleEnum.DASHED,
       width: 10,
       anchors: [{ nodeId: 'data-storage' }, { nodeId: 'dynamodb-1' }],
-      color: customVars.diagramPalette.grey
+      color: customVars.diagramPalette.grey,
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     {
       id: '10',
       style: ConnectorStyleEnum.DASHED,
       width: 10,
       anchors: [{ nodeId: 'data-storage' }, { nodeId: 'dynamodb-2' }],
-      color: customVars.diagramPalette.grey
+      color: customVars.diagramPalette.grey,
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     {
       id: '11',
       style: ConnectorStyleEnum.DASHED,
       width: 10,
       anchors: [{ nodeId: 'data-storage' }, { nodeId: 'dynamodb-3' }],
-      color: customVars.diagramPalette.grey
+      color: customVars.diagramPalette.grey,
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     {
       id: '12',
       style: ConnectorStyleEnum.DASHED,
       width: 10,
       anchors: [{ nodeId: 'card-terminal' }, { nodeId: 'stripe-api-payment' }],
-      color: customVars.diagramPalette.grey
+      color: customVars.diagramPalette.grey,
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     {
       id: '13',
@@ -302,49 +430,77 @@ export const initialData: InitialData = {
         { nodeId: 'authentication' },
         { nodeId: 'google-oauthentication' }
       ],
-      color: customVars.diagramPalette.grey
+      color: customVars.diagramPalette.grey,
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     {
       id: '14',
       style: ConnectorStyleEnum.DASHED,
       width: 10,
       anchors: [{ nodeId: 'my-api' }, { nodeId: 'card-terminal' }],
-      color: customVars.diagramPalette.grey
+      color: customVars.diagramPalette.grey,
+      loading: {
+        delay: 2000,
+        duration: 1000,
+      },
     },
     {
       id: '15',
       style: ConnectorStyleEnum.DASHED,
       width: 10,
       anchors: [{ nodeId: 'my-api' }, { nodeId: 'authentication' }],
-      color: customVars.diagramPalette.grey
+      color: customVars.diagramPalette.grey,
+      loading: {
+        delay: 2000,
+        duration: 1000,
+      },
     },
     {
       id: '16',
       style: ConnectorStyleEnum.DASHED,
       width: 10,
       anchors: [{ nodeId: 'my-api' }, { nodeId: 'client-endpoints' }],
-      color: customVars.diagramPalette.grey
+      color: customVars.diagramPalette.grey,
+      loading: {
+        delay: 2000,
+        duration: 1000,
+      },
     },
     {
       id: '17',
       style: ConnectorStyleEnum.DASHED,
       width: 10,
       anchors: [{ nodeId: 'my-api' }, { nodeId: 'websockets' }],
-      color: customVars.diagramPalette.grey
+      color: customVars.diagramPalette.grey,
+      loading: {
+        delay: 2000,
+        duration: 1000,
+      },
     },
     {
       id: '18',
-      style: ConnectorStyleEnum.SOLID,
+      style: ConnectorStyleEnum.DASHED,
       width: 10,
       anchors: [{ nodeId: 'my-api' }, { nodeId: 'aws-lambdas' }],
-      color: customVars.diagramPalette.grey
+      color: customVars.diagramPalette.grey,
+      loading: {
+        delay: 2000,
+        duration: 1000,
+      },
     },
     {
       id: '19',
       style: ConnectorStyleEnum.DASHED,
       width: 10,
       anchors: [{ nodeId: 'my-api' }, { nodeId: 'data-storage' }],
-      color: customVars.diagramPalette.grey
+      color: customVars.diagramPalette.grey,
+      loading: {
+        delay: 2000,
+        duration: 1000,
+      },
     }
   ],
   rectangles: [
@@ -359,7 +515,11 @@ export const initialData: InitialData = {
         x: 7,
         y: 7
       },
-      label: 'Core API'
+      label: 'Core API',
+      loading: {
+        delay: 500,
+        duration: 1000,
+      },
     },
     {
       id: 'aws-s3-bucket-group',
@@ -372,7 +532,11 @@ export const initialData: InitialData = {
         x: -6,
         y: -12
       },
-      label: 'AWS S3 Bucket'
+      label: 'AWS S3 Bucket',
+      loading: {
+        delay: 3500,
+        duration: 1000,
+      },
     },
     {
       id: 'aws-dynamodb-group',
@@ -385,7 +549,11 @@ export const initialData: InitialData = {
         x: 9,
         y: -16
       },
-      label: 'AWS DynamoDB'
+      label: 'AWS DynamoDB',
+      loading: {
+        delay: 3500,
+        duration: 1000,
+      },
     },
     {
       id: 'aws-lambda-group',
@@ -398,11 +566,15 @@ export const initialData: InitialData = {
         x: -14,
         y: -7
       },
-      label: 'AWS Lambda'
+      label: 'AWS Lambda',
+      loading: {
+        delay: 3500,
+        duration: 1000,
+      },
     },
     {
       id: 'aws-websockets-group',
-      color: customVars.diagramPalette.yellow,
+      color: customVars.diagramPalette.grey,
       from: {
         x: -10,
         y: 4
@@ -411,7 +583,11 @@ export const initialData: InitialData = {
         x: -12,
         y: 6
       },
-      label: 'AWS Websockets'
+      label: 'AWS Websockets',
+      loading: {
+        delay: 3500,
+        duration: 1000,
+      },
     },
     {
       id: 'endpoint-clients',
@@ -424,7 +600,11 @@ export const initialData: InitialData = {
         x: 4,
         y: 12
       },
-      label: 'Endpoint Clients'
+      label: 'Endpoint Clients',
+      loading: {
+        delay: 3500,
+        duration: 1000,
+      },
     },
     {
       id: 'google-oauth-group',
@@ -437,7 +617,11 @@ export const initialData: InitialData = {
         x: 10,
         y: 2
       },
-      label: 'Google Auth'
+      label: 'Google Auth',
+      loading: {
+        delay: 3500,
+        duration: 1000,
+      },
     },
     {
       id: 'stripe-group',
@@ -450,7 +634,11 @@ export const initialData: InitialData = {
         x: 10,
         y: -3
       },
-      label: 'Stripe API'
+      label: 'Stripe API',
+      loading: {
+        delay: 3500,
+        duration: 1000,
+      },
     },
     // My API Highlight
     {
@@ -464,6 +652,10 @@ export const initialData: InitialData = {
         x: -0.25,
         y: -0.25
       },
+      loading: {
+        delay: 500,
+        duration: 1000,
+      },
     },
     // Websocket Highlight
     {
@@ -476,7 +668,11 @@ export const initialData: InitialData = {
       to: {
         x: -5.75,
         y: 4.75
-      }
+      },
+      loading: {
+        delay: 2000,
+        duration: 1000,
+      },
     },
     // AWS Lambdas Highlight
     {
@@ -489,7 +685,11 @@ export const initialData: InitialData = {
       to: {
         x: -5.75,
         y: -2.75
-      }
+      },
+      loading: {
+        delay: 2000,
+        duration: 1000,
+      },
     },
     // Database Highlight
     {
@@ -502,7 +702,11 @@ export const initialData: InitialData = {
       to: {
         x: 0.25,
         y: -6.25
-      }
+      },
+      loading: {
+        delay: 2000,
+        duration: 1000,
+      },
     },
     // Clients Highlight
     {
@@ -515,7 +719,11 @@ export const initialData: InitialData = {
       to: {
         x: 0.25,
         y: 6.25
-      }
+      },
+      loading: {
+        delay: 2000,
+        duration: 1000,
+      },
     },
     // Google OAuth Highlight
     {
@@ -528,7 +736,11 @@ export const initialData: InitialData = {
       to: {
         x: 6.25,
         y: 3.25
-      }
+      },
+      loading: {
+        delay: 2000,
+        duration: 1000,
+      },
     },
     // Stripe Payment Highlight
     {
@@ -541,7 +753,11 @@ export const initialData: InitialData = {
       to: {
         x: 6.25,
         y: -2.25
-      }
+      },
+      loading: {
+        delay: 2000,
+        duration: 1000,
+      },
     },
     // Google OAuthentication Block
     {
@@ -554,7 +770,11 @@ export const initialData: InitialData = {
       to: {
         x: 11.25,
         y: 3.25
-      }
+      },
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     // Stripe Payment API Block Highlight
     {
@@ -567,7 +787,11 @@ export const initialData: InitialData = {
       to: {
         x: 11.25,
         y: -2.25
-      }
+      },
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     // Dynamo DB 1 Block Highlight
     {
@@ -580,7 +804,11 @@ export const initialData: InitialData = {
       to: {
         x: 5.25,
         y: -15.25
-      }
+      },
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     // Dynamo DB 2 Block Highlight
     {
@@ -593,7 +821,11 @@ export const initialData: InitialData = {
       to: {
         x: 3.25,
         y: -11.25
-      }
+      },
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     // Dynamo DB 3 Block Highlight
     {
@@ -606,7 +838,11 @@ export const initialData: InitialData = {
       to: {
         x: 8.25,
         y: -11.25
-      }
+      },
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     // AWS S3 Bucket Highlight
     {
@@ -619,7 +855,11 @@ export const initialData: InitialData = {
       to: {
         x: -5.25,
         y: -11.25
-      }
+      },
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     // AWS Lambda 1 Block Highlight
     {
@@ -632,7 +872,11 @@ export const initialData: InitialData = {
       to: {
         x: -11.25,
         y: 0.25
-      }
+      },
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     // AWS Lambda 2 Block Highlight
     {
@@ -645,7 +889,11 @@ export const initialData: InitialData = {
       to: {
         x: -13.25,
         y: -3.25
-      }
+      },
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     // AWS Lambda 2 Block Highlight
     {
@@ -658,7 +906,11 @@ export const initialData: InitialData = {
       to: {
         x: -11.25,
         y: -6.25
-      }
+      },
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     // Websockets Block Highlight
     {
@@ -671,7 +923,11 @@ export const initialData: InitialData = {
       to: {
         x: -11.25,
         y: 5.25
-      }
+      },
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     // Endpoint Client 1 Block Highlight
     {
@@ -684,7 +940,11 @@ export const initialData: InitialData = {
       to: {
         x: 0.25,
         y: 11.25
-      }
+      },
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     // Endpoint Client 2 Block Highlight
     {
@@ -697,7 +957,11 @@ export const initialData: InitialData = {
       to: {
         x: 3.25,
         y: 11.25
-      }
+      },
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     },
     // Endpoint Client 3 Block Highlight
     {
@@ -710,7 +974,11 @@ export const initialData: InitialData = {
       to: {
         x: -3.25,
         y: 11.25
-      }
+      },
+      loading: {
+        delay: 5500,
+        duration: 1000,
+      },
     }
   ]
 };

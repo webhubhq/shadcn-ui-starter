@@ -5,6 +5,11 @@ const coords = z.object({
   y: z.number()
 });
 
+const loading = z.object({
+  delay: z.number(),
+  duration: z.number(),
+});
+
 export const iconInput = z.object({
   id: z.string(),
   name: z.string(),
@@ -18,7 +23,8 @@ export const nodeInput = z.object({
   labelHeight: z.number().optional(),
   color: z.string().optional(),
   iconId: z.string(),
-  position: coords
+  position: coords,
+  loading,
 });
 
 export const connectorAnchorInput = z
@@ -55,7 +61,8 @@ export const connectorInput = z.object({
       z.literal(ConnectorStyleEnum.DASHED)
     ])
     .optional(),
-  anchors: z.array(connectorAnchorInput)
+  anchors: z.array(connectorAnchorInput),
+  loading,
 });
 
 export const rectangleInput = z.object({
@@ -64,4 +71,5 @@ export const rectangleInput = z.object({
   from: coords,
   to: coords,
   label: z.string().optional(),
+  loading,
 });

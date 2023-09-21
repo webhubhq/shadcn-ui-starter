@@ -21,6 +21,7 @@ export const Nodes = () => {
             icon={icons.find((icon) => {
               return icon.id === node.iconId;
             })}
+            loading={node.loading}
           />
         );
       })}

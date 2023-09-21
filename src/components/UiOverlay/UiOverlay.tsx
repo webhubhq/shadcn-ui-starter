@@ -21,7 +21,7 @@ export const UiOverlay = () => {
 
   return (
     <>
-      {/* <ItemControlsManager /> */}
+      <ItemControlsManager />
       <ToolMenu />
       {mode.type === 'PLACE_ELEMENT' && mode.icon && (
         <SceneLayer>

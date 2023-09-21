@@ -22,6 +22,11 @@ export enum SceneItemTypeEnum {
   RECTANGLE = 'RECTANGLE'
 }
 
+export interface Loading {
+  delay: number;
+  duration: number;
+}
+
 export interface Node {
   id: string;
   type: SceneItemTypeEnum.NODE;
@@ -31,6 +36,7 @@ export interface Node {
   labelHeight: number;
   position: Coords;
   isSelected: boolean;
+  loading: Loading;
 }
 
 export type ConnectorAnchor =
@@ -55,6 +61,7 @@ export interface Connector {
     origin: Coords;
     areaSize: Size;
   };
+  loading: Loading;
 }
 
 export interface Rectangle {
@@ -64,6 +71,7 @@ export interface Rectangle {
   from: Coords;
   to: Coords;
   label?: string | undefined;
+  loading: Loading;
 }
 
 export type SceneItem = Node | Connector | Rectangle;

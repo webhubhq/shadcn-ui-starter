@@ -14,7 +14,7 @@ export const Connectors = () => {
   return (
     <>
       {connectors.map((connector) => {
-        return <Connector key={connector.id} id={connector.id} connector={connector} />;
+        return <Connector key={connector.id} id={connector.id} connector={connector} loading={connector.loading} />;
       })}
       {mode.type === 'CONNECTOR' && mode.connector && (
         <Connector connector={mode.connector} />

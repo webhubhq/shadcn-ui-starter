@@ -37,3 +37,21 @@
     0% { transform: translateY(0); }
     100% { transform: translateY(-10px); }
 }
+
+.pulse-opacity {
+    animation-name: color;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+  }
+  
+  @keyframes color {
+    0% {
+      opacity: 1.0;
+    }
+    50% {
+      opacity: 0.4;
+    }
+    100% {
+      opacity: 1.0;
+    }
+  }

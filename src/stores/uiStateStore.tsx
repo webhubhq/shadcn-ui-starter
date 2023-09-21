@@ -25,7 +25,7 @@ const initialState = () => {
         offset: { x: 0, y: 0 }
       },
       debugMode: false,
-      itemEmphasis: ['my-api'],
+      itemEmphasis: ['my-api', 'aws-dynamodb-group'],
       zoom: 1,
       rendererSize: { width: 0, height: 0 },
       actions: {

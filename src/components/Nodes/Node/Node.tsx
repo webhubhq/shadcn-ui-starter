@@ -1,6 +1,6 @@
-import React, { useRef, useCallback, useMemo } from 'react';
+import React, { useRef, useCallback, useMemo, useState, useEffect } from 'react';
 import { Box } from '@mui/material';
-import { Node as NodeI, IconInput, TileOriginEnum } from 'src/types';
+import { Node as NodeI, IconInput, TileOriginEnum, Loading } from 'src/types';
 import { useProjectedTileSize } from 'src/hooks/useProjectedTileSize';
 import { useGetTilePosition } from 'src/hooks/useGetTilePosition';
 import { LabelContainer } from './LabelContainer';
@@ -12,9 +12,10 @@ interface Props {
   node: NodeI;
   icon?: IconInput;
   order: number;
+  loading: Loading;
 }
 
-export const Node = ({ node, icon, order }: Props) => {
+export const Node = ({ node, icon, order, loading = {} }: Props) => {
   const nodeRef = useRef<HTMLDivElement>();
   const projectedTileSize = useProjectedTileSize();
   const { getTilePosition } = useGetTilePosition();
@@ -42,9 +43,21 @@ export const Node = ({ node, icon, order }: Props) => {
     return node.label;
   }, [node.label]);
 
+  const [load, setLoad] = useState(loading?.delay === undefined)
+
+  useEffect(() => {
+    if (!load && loading?.delay !== undefined) {
+      setTimeout(() => {
+        setLoad(true)
+      }, loading?.delay)
+    }
+  }, []);
+
   return (
     <Box
       sx={{
+        transition: loading?.duration && `opacity ${loading?.duration}ms`,
+        opacity: load ? 1 : 0,
         position: 'absolute',
         zIndex: order
       }}

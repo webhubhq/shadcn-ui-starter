@@ -1,6 +1,6 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import { useTheme } from '@mui/material';
-import { Connector as ConnectorI } from 'src/types';
+import { Connector as ConnectorI, Loading } from 'src/types';
 import { UNPROJECTED_TILE_SIZE } from 'src/config';
 import {
   getAnchorPosition,
@@ -16,12 +16,16 @@ import { useSceneStore } from 'src/stores/sceneStore';
 interface Props {
   id?: string;
   connector: ConnectorI;
+  loading: Loading;
 }
 
-export const Connector = ({ id, connector }: Props) => {
+export const Connector = ({ id, connector, loading }: Props) => {
   const theme = useTheme();
 
-  const [connectorPathTilesIndex, setConnectorPathTilesIndex] = useState<number | undefined>()
+  const [connectorPathTilesIndex, setConnectorPathTilesIndex] = useState<number | undefined>(loading?.delay !== undefined
+    ? undefined
+    : (connector.path.tiles.length || 0)
+  );
 
   const zoom = useUiStateStore((state) => {
     return state.zoom;
@@ -69,6 +73,9 @@ export const Connector = ({ id, connector }: Props) => {
     return (unprojectedTileSize / 100) * connector.width;
   }, [connector.width, unprojectedTileSize]);
 
+
+  const [load, setLoad] = useState(loading?.delay === undefined)
+
   const strokeDashArray = useMemo(() => {
     switch (connector.style) {
       case 'DASHED':
@@ -82,12 +89,20 @@ export const Connector = ({ id, connector }: Props) => {
   }, [connector.style, connectorWidthPx]);
 
   useEffect(() => {
-    console.log('connector.path.tiles.length: ', connector.path.tiles.length)
-    if (connectorPathTilesIndex === undefined && connector.path.tiles.length > 0) {
-      setTimeout(() => {
+    if (load) {
+      console.log('connector.path.tiles.length: ', connector.path.tiles.length)
+      if (connectorPathTilesIndex === undefined && connector.path.tiles.length > 0) {
         setConnectorPathTilesIndex(0);
-      }, 5000)
-      
+      }
+    }
+    
+  }, [load]);
+
+  useEffect(() => {
+    if (!load && loading?.delay !== undefined) {
+      setTimeout(() => {
+        setLoad(true)
+      }, loading?.delay)
     }
   }, []);
 

@@ -25,7 +25,8 @@ export const nodeInputToNode = (nodeInput: NodeInput): Node => {
     color: nodeInput.color ?? NODE_DEFAULTS.color,
     iconId: nodeInput.iconId,
     position: nodeInput.position,
-    isSelected: false
+    isSelected: false,
+    loading: nodeInput.loading,
   };
 };
 
@@ -38,7 +39,8 @@ export const rectangleInputToRectangle = (
     from: rectangleInput.from,
     to: rectangleInput.to,
     color: rectangleInput.color ?? DEFAULT_COLOR,
-    label: rectangleInput.label || ''
+    label: rectangleInput.label || '',
+    loading: rectangleInput.loading || {},
   };
 };
 
@@ -77,7 +79,8 @@ export const connectorInputToConnector = (
     width: connectorInput.width ?? CONNECTOR_DEFAULTS.width,
     style: connectorInput.style ?? CONNECTOR_DEFAULTS.style,
     anchors,
-    path: getConnectorPath({ anchors, nodes })
+    path: getConnectorPath({ anchors, nodes }),
+    loading: connectorInput.loading,
   };
 };
 
@@ -110,7 +113,8 @@ export const nodeToNodeInput = (node: Node): NodeInput => {
     label: node.label,
     labelHeight: node.labelHeight,
     color: node.color,
-    iconId: node.iconId
+    iconId: node.iconId,
+    loading: node.loading,
   };
 };
 
@@ -145,7 +149,8 @@ export const connectorToConnectorInput = (
   return {
     id: connector.id,
     color: connector.color,
-    anchors
+    anchors,
+    loading: connector.loading,
   };
 };
 
@@ -157,7 +162,8 @@ export const rectangleToRectangleInput = (
     color: rectangle.color,
     from: rectangle.from,
     to: rectangle.to,
-    label: rectangle.label
+    label: rectangle.label,
+    loading: rectangle.loading,
   };
 };
 

@@ -1,7 +1,7 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Box } from '@mui/material';
 import { UNPROJECTED_TILE_SIZE } from 'src/config';
-import { Size, Coords, TileOriginEnum } from 'src/types';
+import { Size, Coords, TileOriginEnum, Loading } from 'src/types';
 import {
   getIsoMatrixCSS,
   getProjectedTileSize,
@@ -25,7 +25,9 @@ interface Props {
   };
   zoom: number;
   outline: string;
+  pulse: boolean;
   label: string;
+  loading: Loading;
   isCursor?: boolean;
   children?: React.ReactNode;
 }
@@ -39,7 +41,9 @@ export const IsoTileArea = ({
   stroke,
   zoom,
   outline = "none",
+  pulse = false,
   label = "",
+  loading = {},
   isCursor = false,
   children
 }: Props) => {
@@ -97,8 +101,19 @@ export const IsoTileArea = ({
   const w = size.width * UNPROJECTED_TILE_SIZE * zoom;
   const h = size.height * UNPROJECTED_TILE_SIZE * zoom;
 
+  const [load, setLoad] = useState(loading?.delay === undefined)
+
+  useEffect(() => {
+    if (!load && loading?.delay !== undefined) {
+      setTimeout(() => {
+        setLoad(true)
+      }, loading?.delay)
+    }
+  }, []);
+
   return (
     <Box
+      className={pulse && 'pulse-opacity'}
       sx={{
         transition: !isCursor && 'all 1s',
         position: 'absolute',
@@ -107,59 +122,66 @@ export const IsoTileArea = ({
         top: position.y
       }}
     >
-      <Svg
-        viewBox={`0 0 ${viewbox.width} ${viewbox.height}`}
-        width={`${viewbox.width}px`}
-        height={`${viewbox.height}px`}
-        onMouseOut={() => {
-          return console.log('mouse out');
-        }}
-        onMouseEnter={() => {
-          return console.log('mouse enter');
-        }}
-        onMouseLeave={() => {
-          return console.log('mouse enter');
+      <Box
+        sx={{
+          transition: loading?.duration && `opacity ${loading?.duration}ms`,
+          opacity: load ? 1 : 0,
         }}
       >
-        <g transform={`translate(${translate.x}, ${translate.y})`}>
-          <g transform={getIsoMatrixCSS()}>
-            {/* <rect
-              width={size.width * UNPROJECTED_TILE_SIZE * zoom + 3}
-              height={size.height * UNPROJECTED_TILE_SIZE * zoom + 3}
-              class="outline"
-              stroke="#ffffff"
-              stroke-width="14"
-              fill="none"
-              fill-rule="evenodd"
-            /> */}
-            <rect
-              width={size.width * UNPROJECTED_TILE_SIZE * zoom}
-              height={size.height * UNPROJECTED_TILE_SIZE * zoom}
-              fill={fill}
-              rx={cornerRadius}
-              {...strokeParams}
-              onMouseEnter={() => {
-                return console.log('mouse enter');
-              }}
-              onMouseLeave={() => {
-                return console.log('mouse enter');
-              }}
-            />
-            {(outline === 'active' || outline === 'static') && <polygon
-              className={`path-${outline}`}
-              points={`0 0, ${w} 0, ${w} ${h}, 0 ${h}`}
-              stroke={strokeParams.stroke || '#fff000'}
-              stroke-width="4"
-              fill="none" 
-              fill-rule="evenodd"
-            />}
-            {children}
+        <Svg
+          viewBox={`0 0 ${viewbox.width} ${viewbox.height}`}
+          width={`${viewbox.width}px`}
+          height={`${viewbox.height}px`}
+          onMouseOut={() => {
+            return console.log('mouse out');
+          }}
+          onMouseEnter={() => {
+            return console.log('mouse enter');
+          }}
+          onMouseLeave={() => {
+            return console.log('mouse enter');
+          }}
+        >
+          <g transform={`translate(${translate.x}, ${translate.y})`}>
+            <g transform={getIsoMatrixCSS()}>
+              {/* <rect
+                width={size.width * UNPROJECTED_TILE_SIZE * zoom + 3}
+                height={size.height * UNPROJECTED_TILE_SIZE * zoom + 3}
+                class="outline"
+                stroke="#ffffff"
+                stroke-width="14"
+                fill="none"
+                fill-rule="evenodd"
+              /> */}
+              <rect
+                width={size.width * UNPROJECTED_TILE_SIZE * zoom}
+                height={size.height * UNPROJECTED_TILE_SIZE * zoom}
+                fill={fill}
+                rx={cornerRadius}
+                {...strokeParams}
+                onMouseEnter={() => {
+                  return console.log('mouse enter');
+                }}
+                onMouseLeave={() => {
+                  return console.log('mouse enter');
+                }}
+              />
+              {(outline === 'active' || outline === 'static') && <polygon
+                className={`path-${outline}`}
+                points={`0 0, ${w} 0, ${w} ${h}, 0 ${h}`}
+                stroke={strokeParams.stroke || '#fff000'}
+                stroke-width="4"
+                fill="none" 
+                fill-rule="evenodd"
+              />}
+              {children}
+            </g>
+            {label && label.length > 0 && <g transform={`matrix(0.707, 0.409, -0.707, 0.409, 0, -0.816)`}>
+              <text x={`${10 * zoom}`} y={`${35 * zoom}`} style={{ fontSize: 28 * zoom, fontWeight: 'bold', transform: 'rotate(0deg)', fill: strokeParams.stroke }}>{label}</text>
+            </g>}
           </g>
-          {label && label.length > 0 && <g transform={`matrix(0.707, 0.409, -0.707, 0.409, 0, -0.816)`}>
-            <text x={`${10 * zoom}`} y={`${35 * zoom}`} style={{ fontSize: 28 * zoom, fontWeight: 'bold', transform: 'rotate(0deg)', fill: strokeParams.stroke }}>{label}</text>
-          </g>}
-        </g>
-      </Svg>
+        </Svg>
+      </Box>
     </Box>
   );
 };
