@@ -102,7 +102,7 @@ export default function Page({}) {
             <div
               className="text-[#02062B] dark:text-[#D6D5D8]"
               style={{ fontSize: 22, fontWeight: 'bold', fontFamily: 'Arial', textAlign: 'center', alignSelf: 'center', marginLeft: 10 }}
-            >WebHUB</div>
+            >WebHub</div>
             <div className="text-[#797387] dark:text-[#797680]" style={{ fontSize: 16, fontWeight: 'normal', fontFamily: 'Arial', textAlign: 'center', alignSelf: 'center', marginLeft: 6 }}>{subHeaderName}</div>
 
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
