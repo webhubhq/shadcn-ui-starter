@@ -10,6 +10,8 @@ const loading = z.object({
   duration: z.number(),
 });
 
+const states = z.array(z.object({}).optional()).optional()
+
 export const iconInput = z.object({
   id: z.string(),
   name: z.string(),
@@ -63,6 +65,7 @@ export const connectorInput = z.object({
     .optional(),
   anchors: z.array(connectorAnchorInput),
   loading,
+  states,
 });
 
 export const rectangleInput = z.object({
@@ -72,4 +75,5 @@ export const rectangleInput = z.object({
   to: coords,
   label: z.string().optional(),
   loading,
+  states,
 });

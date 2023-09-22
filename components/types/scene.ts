@@ -62,6 +62,8 @@ export interface Connector {
     areaSize: Size;
   };
   loading?: Loading;
+  state?: number | null | undefined;
+  states?: Connector[];
 }
 
 export interface Rectangle {
@@ -72,6 +74,8 @@ export interface Rectangle {
   to: Coords;
   label?: string | undefined;
   loading?: Loading;
+  state?: number | null | undefined;
+  states?: Rectangle[];
 }
 
 export type SceneItem = Node | Connector | Rectangle;

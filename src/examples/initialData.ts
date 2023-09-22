@@ -300,6 +300,10 @@ export const initialData: InitialData = {
         delay: 5500,
         duration: 1000,
       },
+      state: null,
+      states: [
+        { color: customVars.diagramPalette.purple }
+      ],
     },
     {
       id: '2',
@@ -377,6 +381,11 @@ export const initialData: InitialData = {
         delay: 5500,
         duration: 1000,
       },
+      state: null,
+      states: [
+        undefined,
+        { color: customVars.diagramPalette.blue }
+      ],
     },
     {
       id: '9',
@@ -421,6 +430,11 @@ export const initialData: InitialData = {
         delay: 5500,
         duration: 1000,
       },
+      state: null,
+      states: [
+        undefined,
+        { color: customVars.diagramPalette.yellow }
+      ],
     },
     {
       id: '13',
@@ -435,6 +449,11 @@ export const initialData: InitialData = {
         delay: 5500,
         duration: 1000,
       },
+      state: null,
+      states: [
+        undefined,
+        { color: customVars.diagramPalette.green }
+      ],
     },
     {
       id: '14',
@@ -446,6 +465,11 @@ export const initialData: InitialData = {
         delay: 2000,
         duration: 1000,
       },
+      state: null,
+      states: [
+        { color: customVars.diagramPalette.purple },
+        { color: customVars.diagramPalette.yellow }
+      ],
     },
     {
       id: '15',
@@ -457,6 +481,11 @@ export const initialData: InitialData = {
         delay: 2000,
         duration: 1000,
       },
+      state: null,
+      states: [
+        { color: customVars.diagramPalette.purple },
+        { color: customVars.diagramPalette.green }
+      ],
     },
     {
       id: '16',
@@ -468,6 +497,10 @@ export const initialData: InitialData = {
         delay: 2000,
         duration: 1000,
       },
+      state: null,
+      states: [
+        { color: customVars.diagramPalette.purple }
+      ],
     },
     {
       id: '17',
@@ -479,6 +512,10 @@ export const initialData: InitialData = {
         delay: 2000,
         duration: 1000,
       },
+      state: null,
+      states: [
+        { color: customVars.diagramPalette.purple }
+      ],
     },
     {
       id: '18',
@@ -490,6 +527,10 @@ export const initialData: InitialData = {
         delay: 2000,
         duration: 1000,
       },
+      state: null,
+      states: [
+        { color: customVars.diagramPalette.purple }
+      ],
     },
     {
       id: '19',
@@ -501,6 +542,11 @@ export const initialData: InitialData = {
         delay: 2000,
         duration: 1000,
       },
+      state: null,
+      states: [
+        { color: customVars.diagramPalette.purple },
+        { color: customVars.diagramPalette.blue },
+      ],
     }
   ],
   rectangles: [
@@ -520,6 +566,10 @@ export const initialData: InitialData = {
         delay: 500,
         duration: 1000,
       },
+      state: null,
+      states: [
+        { color: customVars.diagramPalette.purple }
+      ],
     },
     {
       id: 'aws-s3-bucket-group',
@@ -656,6 +706,10 @@ export const initialData: InitialData = {
         delay: 500,
         duration: 1000,
       },
+      state: null,
+      states: [
+        { color: customVars.diagramPalette.purple }
+      ],
     },
     // Websocket Highlight
     {
@@ -673,6 +727,10 @@ export const initialData: InitialData = {
         delay: 2000,
         duration: 1000,
       },
+      state: null,
+      states: [
+        { color: customVars.diagramPalette.purple }
+      ],
     },
     // AWS Lambdas Highlight
     {
@@ -690,6 +748,10 @@ export const initialData: InitialData = {
         delay: 2000,
         duration: 1000,
       },
+      state: null,
+      states: [
+        { color: customVars.diagramPalette.purple }
+      ],
     },
     // Database Highlight
     {
@@ -707,6 +769,11 @@ export const initialData: InitialData = {
         delay: 2000,
         duration: 1000,
       },
+      state: null,
+      states: [
+        { color: customVars.diagramPalette.purple },
+        { color: customVars.diagramPalette.blue }
+      ],
     },
     // Clients Highlight
     {
@@ -724,6 +791,10 @@ export const initialData: InitialData = {
         delay: 2000,
         duration: 1000,
       },
+      state: null,
+      states: [
+        { color: customVars.diagramPalette.purple }
+      ],
     },
     // Google OAuth Highlight
     {
@@ -741,6 +812,11 @@ export const initialData: InitialData = {
         delay: 2000,
         duration: 1000,
       },
+      state: null,
+      states: [
+        { color: customVars.diagramPalette.purple },
+        { color: customVars.diagramPalette.green }
+      ],
     },
     // Stripe Payment Highlight
     {
@@ -758,6 +834,11 @@ export const initialData: InitialData = {
         delay: 2000,
         duration: 1000,
       },
+      state: null,
+      states: [
+        { color: customVars.diagramPalette.purple },
+        { color: customVars.diagramPalette.yellow }
+      ],
     },
     // Google OAuthentication Block
     {
@@ -775,6 +856,11 @@ export const initialData: InitialData = {
         delay: 5500,
         duration: 1000,
       },
+      state: null,
+      states: [
+        undefined,
+        { color: customVars.diagramPalette.green }
+      ],
     },
     // Stripe Payment API Block Highlight
     {
@@ -792,6 +878,11 @@ export const initialData: InitialData = {
         delay: 5500,
         duration: 1000,
       },
+      state: null,
+      states: [
+        undefined,
+        { color: customVars.diagramPalette.yellow }
+      ],
     },
     // Dynamo DB 1 Block Highlight
     {
@@ -860,6 +951,11 @@ export const initialData: InitialData = {
         delay: 5500,
         duration: 1000,
       },
+      state: null,
+      states: [
+        undefined,
+        { color: customVars.diagramPalette.blue }
+      ],
     },
     // AWS Lambda 1 Block Highlight
     {

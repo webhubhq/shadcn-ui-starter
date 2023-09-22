@@ -160,6 +160,9 @@ export const IsoTileArea = ({
                 fill-rule="evenodd"
               /> */}
               <rect
+                style={{
+                  transition: 'fill 1s ease',
+                }}
                 width={size.width * UNPROJECTED_TILE_SIZE * zoom}
                 height={size.height * UNPROJECTED_TILE_SIZE * zoom}
                 fill={fill}

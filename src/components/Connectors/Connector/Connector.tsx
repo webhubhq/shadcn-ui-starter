@@ -78,6 +78,8 @@ export const Connector = ({ id, connector, loading }: Props) => {
   // @ts-ignore
   const [load, setLoad] = useState(loading?.delay === undefined)
 
+  const [state, setState] = useState(connector.state)
+
   const strokeDashArray = useMemo(() => {
     switch (connector.style) {
       case 'DASHED':
@@ -133,6 +135,20 @@ export const Connector = ({ id, connector, loading }: Props) => {
     }
   }, [itemControls])
 
+  useEffect(() => {
+    if (connector.state !== state) {
+      setState(connector.state)
+    }
+  }, [connector])
+
+  useEffect(() => {
+    if (state !== null && state !== undefined) {
+      setConnectorPathTilesIndex(0);
+    }
+  }, [state])
+
+  const connectorColor = (state === null || state === undefined) || !connector?.states[state]?.color ? connector.color : connector.states[state].color
+
   return (
     <IsoTileArea
     outline={''}
@@ -155,7 +171,7 @@ export const Connector = ({ id, connector, loading }: Props) => {
       /> */}
       <polyline
         points={pathString}
-        stroke={getColorVariant(connector.color, 'dark', { grade: 0.3 })}
+        stroke={getColorVariant(connectorColor , 'dark', { grade: 0.8 })}
         strokeWidth={connectorWidthPx}
         strokeLinecap="round"
         strokeLinejoin="round"

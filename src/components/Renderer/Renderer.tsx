@@ -51,7 +51,7 @@ export const Renderer = () => {
       }}
     >
       <SceneLayer>
-        <Rectangles />
+        <Rectangles key="rectangles" />
       </SceneLayer>
       <SceneLayer>
         <Grid />
@@ -62,10 +62,10 @@ export const Renderer = () => {
         </SceneLayer>
       )}
       <SceneLayer>
-        <Connectors />
+        <Connectors key="connectors" />
       </SceneLayer>
       <SceneLayer>
-        <Nodes />
+        <Nodes key="nodes" />
       </SceneLayer>
       {debugMode && (
         <SceneLayer>

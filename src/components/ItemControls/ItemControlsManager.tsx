@@ -12,8 +12,6 @@ export const ItemControlsManager = () => {
     return state.itemControls;
   });
 
-  console.log('itemControls: ', itemControls)
-
   const theme = useTheme();
 
   const Controls = useMemo(() => {

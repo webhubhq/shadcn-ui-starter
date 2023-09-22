@@ -54,8 +54,8 @@ const App = ({
   const scene = useSceneStore(({ nodes, connectors, rectangles, icons }) => {
     return { nodes, connectors, rectangles, icons };
   }, shallow);
-  const sceneActions = useSceneStore((state) => {
-    return state.actions;
+  const { actions: sceneActions, connectors: sceneConnectors, rectangles: sceneRectangles } = useSceneStore((state) => {
+    return state;
   });
   const uiActions = useUiStateStore((state) => {
     return state.actions;
@@ -68,7 +68,11 @@ const App = ({
   const { scrollToTile } = useScroll();
 
   useEffect(() => {
-    console.log('uiItemControls 1: ', uiItemControls)
+    console.log('sceneConnectors: ', sceneConnectors)
+  }, [sceneConnectors]);
+
+  useEffect(() => {
+    console.log('uiItemControls: ', uiItemControls)
     setSelectedElement(uiItemControls)
 
     // @ts-ignore
@@ -83,6 +87,94 @@ const App = ({
 
       setScrollTop(50);
     }
+
+    const updateStates = ({ ids = { connectors: [], rectangles: [] }, newState = null }) => {
+      // turn connectors purple
+      const connectorsIdToState = {};
+      sceneConnectors.map(({ id, state }) => {
+        // @ts-ignore
+        connectorsIdToState[id] = state
+      })
+      // @ts-ignore
+      const updateConnectors = sceneConnectors.some(({ id, state }) => ids.connectors.includes(id) && !(state > newState))
+
+      console.log('connectorsIdToState: ', connectorsIdToState)
+
+      if (updateConnectors) {
+        // update the state of all 
+        console.log(`update connectors states to ${newState}`)
+        ids.connectors.map((id: string) => {
+          // @ts-ignore
+          if (!(connectorsIdToState[id] > newState)) {
+            sceneActions.updateConnector(id, { state: newState });
+          }
+        })
+      }
+
+      // turn rectangles purple
+      const rectanglesIdToState = {};
+      sceneRectangles.map(({ id, state }) => {
+        // @ts-ignore
+        rectanglesIdToState[id] = state
+      });
+      // @ts-ignore
+      const updateRectangles = sceneRectangles.some(({ id, state }) => ids.rectangles.includes(id) && !(state > newState))
+
+      if (updateRectangles) {
+        // update the state of all 
+        console.log(`update rectangles states to ${newState}`)
+        ids.rectangles.map((id) => {
+          // @ts-ignore
+          if (!(rectanglesIdToState[id] > newState)) {
+            sceneActions.updateRectangle(id, { state: newState });
+          }
+        })
+      }
+    };
+
+
+    if (uiItemControls?.id === 'my-api') {
+
+      const ids = {
+        connectors: ['14', '15', '16', '17', '18', '19'],
+        rectangles: ['core-api-group', 'stripe-payment-highlight', 'google-oauth-highlight', 'clients-highlight', 'database-highlight', 'lambda-highlight', 'websocket-highlight', 'api-highlight']
+      }
+
+      // @ts-ignore
+      updateStates({ ids, newState: 0 });
+
+    } else if (uiItemControls?.id === 'aws-s3-bucket') {
+
+      const ids = {
+        connectors: ['8', '19'],
+        rectangles: ['s3-bucket-block-highlight', 'database-highlight']
+      }
+
+      // @ts-ignore
+      updateStates({ ids, newState: 1 });
+
+    } else if (uiItemControls?.id === 'stripe-api-payment') {
+
+      const ids = {
+        connectors: ['12', '14'],
+        rectangles: ['stripe-payment-highlight', 'stripe-payment-block-highlight']
+      }
+
+      // @ts-ignore
+      updateStates({ ids, newState: 1 });
+
+    } else if (uiItemControls?.id === 'google-oauthentication') {
+
+      const ids = {
+        connectors: ['13', '15'],
+        rectangles: ['google-oauth-highlight', 'google-oauth-block-highlight']
+      }
+
+      // @ts-ignore
+      updateStates({ ids, newState: 1 });
+
+    }
+
   }, [uiItemControls])
 
   useEffect(() => {
