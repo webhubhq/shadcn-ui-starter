@@ -67,9 +67,6 @@ const App = ({
 
   const { scrollToTile } = useScroll();
 
-  useEffect(() => {
-    console.log('sceneConnectors: ', sceneConnectors)
-  }, [sceneConnectors]);
 
   useEffect(() => {
     console.log('uiItemControls: ', uiItemControls)
@@ -97,8 +94,6 @@ const App = ({
       })
       // @ts-ignore
       const updateConnectors = sceneConnectors.some(({ id, state }) => ids.connectors.includes(id) && !(state > newState))
-
-      console.log('connectorsIdToState: ', connectorsIdToState)
 
       if (updateConnectors) {
         // update the state of all 
@@ -133,6 +128,7 @@ const App = ({
     };
 
 
+    // @ts-ignore
     if (uiItemControls?.id === 'my-api') {
 
       const ids = {
@@ -143,31 +139,78 @@ const App = ({
       // @ts-ignore
       updateStates({ ids, newState: 0 });
 
+      // @ts-ignore
     } else if (uiItemControls?.id === 'aws-s3-bucket') {
 
       const ids = {
-        connectors: ['8', '19'],
+        connectors: ['8'],
         rectangles: ['s3-bucket-block-highlight', 'database-highlight']
       }
 
       // @ts-ignore
       updateStates({ ids, newState: 1 });
 
+      // @ts-ignore
     } else if (uiItemControls?.id === 'stripe-api-payment') {
 
       const ids = {
-        connectors: ['12', '14'],
+        connectors: ['12'],
         rectangles: ['stripe-payment-highlight', 'stripe-payment-block-highlight']
       }
 
       // @ts-ignore
       updateStates({ ids, newState: 1 });
 
+      // @ts-ignore
     } else if (uiItemControls?.id === 'google-oauthentication') {
 
       const ids = {
-        connectors: ['13', '15'],
+        connectors: ['13'],
         rectangles: ['google-oauth-highlight', 'google-oauth-block-highlight']
+      }
+
+      // @ts-ignore
+      updateStates({ ids, newState: 1 });
+
+      // @ts-ignore
+    } else if (uiItemControls?.id === 'lambda-1') {
+
+      const ids = {
+        connectors: ['5'],
+        rectangles: ['lambda-highlight', 'lambda-1-block-highlight']
+      }
+
+      // @ts-ignore
+      updateStates({ ids, newState: 1 });
+
+      // @ts-ignore
+    } else if (uiItemControls?.id === 'lambda-2') {
+
+      const ids = {
+        connectors: ['6'],
+        rectangles: ['lambda-highlight', 'lambda-2-block-highlight']
+      }
+
+      // @ts-ignore
+      updateStates({ ids, newState: 1 });
+
+      // @ts-ignore
+    } else if (uiItemControls?.id === 'lambda-3') {
+
+      const ids = {
+        connectors: ['7'],
+        rectangles: ['lambda-highlight', 'lambda-3-block-highlight']
+      }
+
+      // @ts-ignore
+      updateStates({ ids, newState: 1 });
+
+      // @ts-ignore
+    } else if (uiItemControls?.id === 'websocket-block') {
+
+      const ids = {
+        connectors: ['4'],
+        rectangles: ['websocket-highlight', 'websocket-block-highlight']
       }
 
       // @ts-ignore

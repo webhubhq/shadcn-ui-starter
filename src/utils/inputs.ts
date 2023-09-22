@@ -41,7 +41,9 @@ export const rectangleInputToRectangle = (
     color: rectangleInput.color ?? DEFAULT_COLOR,
     label: rectangleInput.label || '',
     loading: rectangleInput.loading || {},
+    // @ts-ignore
     state: rectangleInput.state || null,
+    // @ts-ignore
     states: rectangleInput.states || [],
   };
 };
@@ -83,7 +85,9 @@ export const connectorInputToConnector = (
     anchors,
     path: getConnectorPath({ anchors, nodes }),
     loading: connectorInput.loading,
+    // @ts-ignore
     state: connectorInput.state,
+    // @ts-ignore
     states: connectorInput.states || [],
   };
 };

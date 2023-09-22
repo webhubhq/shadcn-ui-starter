@@ -147,6 +147,7 @@ export const Connector = ({ id, connector, loading }: Props) => {
     }
   }, [state])
 
+  // @ts-ignore
   const connectorColor = (state === null || state === undefined) || !connector?.states[state]?.color ? connector.color : connector.states[state].color
 
   return (

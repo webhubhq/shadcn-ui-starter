@@ -300,6 +300,7 @@ export const initialData: InitialData = {
         delay: 5500,
         duration: 1000,
       },
+      // @ts-ignore
       state: null,
       states: [
         { color: customVars.diagramPalette.purple }
@@ -337,6 +338,12 @@ export const initialData: InitialData = {
         delay: 5500,
         duration: 1000,
       },
+      // @ts-ignore
+      state: null,
+      states: [
+        undefined,
+        { color: customVars.diagramPalette.yellow }
+      ],
     },
     {
       id: '5',
@@ -348,6 +355,12 @@ export const initialData: InitialData = {
         delay: 5500,
         duration: 1000,
       },
+      // @ts-ignore
+      state: null,
+      states: [
+        undefined,
+        { color: customVars.diagramPalette.orange }
+      ],
     },
     {
       id: '6',
@@ -359,6 +372,12 @@ export const initialData: InitialData = {
         delay: 5500,
         duration: 1000,
       },
+      // @ts-ignore
+      state: null,
+      states: [
+        undefined,
+        { color: customVars.diagramPalette.orange }
+      ],
     },
     {
       id: '7',
@@ -370,6 +389,12 @@ export const initialData: InitialData = {
         delay: 5500,
         duration: 1000,
       },
+      // @ts-ignore
+      state: null,
+      states: [
+        undefined,
+        { color: customVars.diagramPalette.orange }
+      ],
     },
     {
       id: '8',
@@ -381,6 +406,7 @@ export const initialData: InitialData = {
         delay: 5500,
         duration: 1000,
       },
+      // @ts-ignore
       state: null,
       states: [
         undefined,
@@ -430,6 +456,7 @@ export const initialData: InitialData = {
         delay: 5500,
         duration: 1000,
       },
+      // @ts-ignore
       state: null,
       states: [
         undefined,
@@ -449,6 +476,7 @@ export const initialData: InitialData = {
         delay: 5500,
         duration: 1000,
       },
+      // @ts-ignore
       state: null,
       states: [
         undefined,
@@ -465,6 +493,7 @@ export const initialData: InitialData = {
         delay: 2000,
         duration: 1000,
       },
+      // @ts-ignore
       state: null,
       states: [
         { color: customVars.diagramPalette.purple },
@@ -481,6 +510,7 @@ export const initialData: InitialData = {
         delay: 2000,
         duration: 1000,
       },
+      // @ts-ignore
       state: null,
       states: [
         { color: customVars.diagramPalette.purple },
@@ -497,6 +527,7 @@ export const initialData: InitialData = {
         delay: 2000,
         duration: 1000,
       },
+      // @ts-ignore
       state: null,
       states: [
         { color: customVars.diagramPalette.purple }
@@ -512,9 +543,11 @@ export const initialData: InitialData = {
         delay: 2000,
         duration: 1000,
       },
+      // @ts-ignore
       state: null,
       states: [
-        { color: customVars.diagramPalette.purple }
+        { color: customVars.diagramPalette.purple },
+        { color: customVars.diagramPalette.yellow }
       ],
     },
     {
@@ -527,9 +560,11 @@ export const initialData: InitialData = {
         delay: 2000,
         duration: 1000,
       },
+      // @ts-ignore
       state: null,
       states: [
-        { color: customVars.diagramPalette.purple }
+        { color: customVars.diagramPalette.purple },
+        { color: customVars.diagramPalette.orange }
       ],
     },
     {
@@ -542,6 +577,7 @@ export const initialData: InitialData = {
         delay: 2000,
         duration: 1000,
       },
+      // @ts-ignore
       state: null,
       states: [
         { color: customVars.diagramPalette.purple },
@@ -566,6 +602,7 @@ export const initialData: InitialData = {
         delay: 500,
         duration: 1000,
       },
+      // @ts-ignore
       state: null,
       states: [
         { color: customVars.diagramPalette.purple }
@@ -706,6 +743,7 @@ export const initialData: InitialData = {
         delay: 500,
         duration: 1000,
       },
+      // @ts-ignore
       state: null,
       states: [
         { color: customVars.diagramPalette.purple }
@@ -727,9 +765,11 @@ export const initialData: InitialData = {
         delay: 2000,
         duration: 1000,
       },
+      // @ts-ignore
       state: null,
       states: [
-        { color: customVars.diagramPalette.purple }
+        { color: customVars.diagramPalette.purple },
+        { color: customVars.diagramPalette.yellow }
       ],
     },
     // AWS Lambdas Highlight
@@ -748,9 +788,11 @@ export const initialData: InitialData = {
         delay: 2000,
         duration: 1000,
       },
+      // @ts-ignore
       state: null,
       states: [
-        { color: customVars.diagramPalette.purple }
+        { color: customVars.diagramPalette.purple },
+        { color: customVars.diagramPalette.orange }
       ],
     },
     // Database Highlight
@@ -769,6 +811,7 @@ export const initialData: InitialData = {
         delay: 2000,
         duration: 1000,
       },
+      // @ts-ignore
       state: null,
       states: [
         { color: customVars.diagramPalette.purple },
@@ -791,6 +834,7 @@ export const initialData: InitialData = {
         delay: 2000,
         duration: 1000,
       },
+      // @ts-ignore
       state: null,
       states: [
         { color: customVars.diagramPalette.purple }
@@ -812,6 +856,7 @@ export const initialData: InitialData = {
         delay: 2000,
         duration: 1000,
       },
+      // @ts-ignore
       state: null,
       states: [
         { color: customVars.diagramPalette.purple },
@@ -834,6 +879,7 @@ export const initialData: InitialData = {
         delay: 2000,
         duration: 1000,
       },
+      // @ts-ignore
       state: null,
       states: [
         { color: customVars.diagramPalette.purple },
@@ -856,6 +902,7 @@ export const initialData: InitialData = {
         delay: 5500,
         duration: 1000,
       },
+      // @ts-ignore
       state: null,
       states: [
         undefined,
@@ -878,6 +925,7 @@ export const initialData: InitialData = {
         delay: 5500,
         duration: 1000,
       },
+      // @ts-ignore
       state: null,
       states: [
         undefined,
@@ -951,6 +999,7 @@ export const initialData: InitialData = {
         delay: 5500,
         duration: 1000,
       },
+      // @ts-ignore
       state: null,
       states: [
         undefined,
@@ -973,6 +1022,12 @@ export const initialData: InitialData = {
         delay: 5500,
         duration: 1000,
       },
+      // @ts-ignore
+      state: null,
+      states: [
+        undefined,
+        { color: customVars.diagramPalette.orange }
+      ],
     },
     // AWS Lambda 2 Block Highlight
     {
@@ -990,6 +1045,12 @@ export const initialData: InitialData = {
         delay: 5500,
         duration: 1000,
       },
+      // @ts-ignore
+      state: null,
+      states: [
+        undefined,
+        { color: customVars.diagramPalette.orange }
+      ],
     },
     // AWS Lambda 2 Block Highlight
     {
@@ -1007,6 +1068,12 @@ export const initialData: InitialData = {
         delay: 5500,
         duration: 1000,
       },
+      // @ts-ignore
+      state: null,
+      states: [
+        undefined,
+        { color: customVars.diagramPalette.orange }
+      ],
     },
     // Websockets Block Highlight
     {
@@ -1024,6 +1091,12 @@ export const initialData: InitialData = {
         delay: 5500,
         duration: 1000,
       },
+      // @ts-ignore
+      state: null,
+      states: [
+        undefined,
+        { color: customVars.diagramPalette.yellow }
+      ],
     },
     // Endpoint Client 1 Block Highlight
     {

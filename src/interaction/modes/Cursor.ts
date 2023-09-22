@@ -44,7 +44,6 @@ export const Cursor: ModeActions = {
     );
   },
   mouseup: (opts) => {
-    console.log('opts: ', opts)
     const { uiState, isRendererInteraction, scene } = opts
     if (uiState.mode.type !== 'CURSOR' || !isRendererInteraction) return;
 

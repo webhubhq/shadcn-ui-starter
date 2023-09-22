@@ -52,11 +52,11 @@ export const Rectangle = ({ id, from, to, color, label = "", loading = {}, state
 
   useEffect(() => {
     if (state !== st) {
-      console.log('st: ', states[st]?.color)
       setState(st)
     }
   }, [st])
 
+  // @ts-ignore
   const clr = state == undefined || state === null || !states[state]?.color ? color : states[state]?.color
 
   return (
