@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Coords, Loading } from 'src/types';
 import { IsoTileArea } from 'src/components/IsoTileArea/IsoTileArea';
 import { useUiStateStore } from 'src/stores/uiStateStore';
@@ -11,10 +11,12 @@ interface Props {
   color: string;
   label: string;
   loading?: Loading;
+  state?: null | number;
+  states?: []
 }
 
 // @ts-ignore
-export const Rectangle = ({ id, from, to, color, label = "", loading = {} }: Props) => {
+export const Rectangle = ({ id, from, to, color, label = "", loading = {}, state: st, states = [] }: Props) => {
   const tile = useUiStateStore((state) => {
     return state.mouse.position.tile;
   });
@@ -27,6 +29,8 @@ export const Rectangle = ({ id, from, to, color, label = "", loading = {} }: Pro
     // @ts-ignore
     return state.itemEmphasis;
   });
+
+  const [state, setState] = useState(st);
 
   const isCursorInRectangle = () => {
     const x1 = tile.x > from.x;
@@ -46,15 +50,25 @@ export const Rectangle = ({ id, from, to, color, label = "", loading = {} }: Pro
     return x3 && y1 !== y2 || x4 && y1 !== y2 || y3 && x1 !== x2 || y4 && x1 !== x2 || x3 && y3 || x4 && y4 || x3 && y4 || x4 && y3
   };
 
+  useEffect(() => {
+    if (state !== st) {
+      console.log('st: ', states[st]?.color)
+      setState(st)
+    }
+  }, [st])
+
+  const clr = state == undefined || state === null || !states[state]?.color ? color : states[state]?.color
+
   return (
     <IsoTileArea
+      key={id}
       from={from}
       to={to}
-      fill={color}
+      fill={clr}
       zoom={zoom}
       cornerRadius={22 * zoom}
       stroke={{
-        color: getColorVariant(color, 'dark', { grade: 2 }),
+        color: getColorVariant(clr, 'dark', { grade: 2 }),
         width: 1 * zoom
       }}
       outline={isCursorInRectangle() ? 'active' : 'none'}

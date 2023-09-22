@@ -102,8 +102,6 @@ export const ItemControlsManager = () => {
 		setEmail(''); // Reset the email input field
 	}
 
-  console.log('itemControls: ', itemControls)
-
   const theme = useTheme();
 
   const Controls = useMemo(() => {
