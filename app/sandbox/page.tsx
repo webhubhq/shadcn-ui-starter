@@ -282,7 +282,7 @@ export default function Page({}) {
       <AccordionItem value="item-1">
         <AccordionTrigger className="font-bold" style={{ fontFamily: 'Arial', textDecoration: 'none' }}>What&apos;s so special about my API?</AccordionTrigger>
         <AccordionContent>
-          At WebHUB we have revolutionized how APIs are built and operate by creating what is called a <em>Dynamic API</em>. A Dynamic API is a an API that can create infrastructure and services for itself and then exposes those resources as endpoints. This means that developers only have to worry about what infrastructure and services they want and the API takes care of building the resources and creating endpoints for to talk to those resources. This ensures that your API applicaiton is completely self consistent and is able to evolve and adapt to your needs frictionlessly.
+          At WebHub we have revolutionized how APIs are built and operate by creating what is called a <em>Dynamic API</em>. A Dynamic API is a an API that can create infrastructure and services for itself and then exposes those resources as endpoints. This means that developers only have to worry about what infrastructure and services they want and the API takes care of building the resources and creating endpoints for to talk to those resources. This ensures that your API applicaiton is completely self consistent and is able to evolve and adapt to your needs frictionlessly.
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-2">
