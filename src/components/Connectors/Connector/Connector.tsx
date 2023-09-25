@@ -181,7 +181,8 @@ export const Connector = ({ id, connector, loading }: Props) => {
       />
 
       {anchorPositions.map((anchor) => {
-        return (
+        // @ts-ignore
+        return (connectorPathTilesIndex >= 0 &&
           <>
             <Circle
               position={CoordsUtils.add(anchor, drawOffset)}

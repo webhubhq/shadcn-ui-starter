@@ -1,6 +1,7 @@
 import { InitialData, ConnectorStyleEnum } from 'src/Isoflow';
 import { basicIsopack, networkingIsopack, mergeIsopacks } from '../isopacks';
 import { customVars } from '../styles/theme';
+import { getColorVariant } from '../utils';
 
 const mergedIsopacks = mergeIsopacks([basicIsopack, networkingIsopack]);
 
@@ -730,7 +731,7 @@ export const initialData: InitialData = {
     // My API Highlight
     {
       id: 'api-highlight',
-      color: customVars.diagramPalette.grey,
+      color: getColorVariant(customVars.diagramPalette.grey , 'dark', { grade: 0.4 }),
       from: {
         x: 0.25,
         y: 0.25
@@ -746,7 +747,7 @@ export const initialData: InitialData = {
       // @ts-ignore
       state: null,
       states: [
-        { color: customVars.diagramPalette.purple }
+        { color: getColorVariant(customVars.diagramPalette.purple , 'dark', { grade: 0.4 }) }
       ],
     },
     // Websocket Highlight
@@ -906,7 +907,7 @@ export const initialData: InitialData = {
       state: null,
       states: [
         undefined,
-        { color: customVars.diagramPalette.green }
+        { color: getColorVariant(customVars.diagramPalette.green , 'dark', { grade: 0.2 }) }
       ],
     },
     // Stripe Payment API Block Highlight
@@ -929,7 +930,7 @@ export const initialData: InitialData = {
       state: null,
       states: [
         undefined,
-        { color: customVars.diagramPalette.yellow }
+        { color: getColorVariant(customVars.diagramPalette.yellow , 'dark', { grade: 0.2 }) }
       ],
     },
     // Dynamo DB 1 Block Highlight
@@ -1003,7 +1004,7 @@ export const initialData: InitialData = {
       state: null,
       states: [
         undefined,
-        { color: customVars.diagramPalette.blue }
+        { color: getColorVariant(customVars.diagramPalette.blue , 'dark', { grade: 0.2 }) }
       ],
     },
     // AWS Lambda 1 Block Highlight
@@ -1026,7 +1027,7 @@ export const initialData: InitialData = {
       state: null,
       states: [
         undefined,
-        { color: customVars.diagramPalette.orange }
+        { color: getColorVariant(customVars.diagramPalette.orange , 'dark', { grade: 0.2 }) }
       ],
     },
     // AWS Lambda 2 Block Highlight
@@ -1049,7 +1050,7 @@ export const initialData: InitialData = {
       state: null,
       states: [
         undefined,
-        { color: customVars.diagramPalette.orange }
+        { color: getColorVariant(customVars.diagramPalette.orange , 'dark', { grade: 0.2 }) }
       ],
     },
     // AWS Lambda 2 Block Highlight
@@ -1072,7 +1073,7 @@ export const initialData: InitialData = {
       state: null,
       states: [
         undefined,
-        { color: customVars.diagramPalette.orange }
+        { color: getColorVariant(customVars.diagramPalette.orange , 'dark', { grade: 0.2 }) }
       ],
     },
     // Websockets Block Highlight
@@ -1095,7 +1096,7 @@ export const initialData: InitialData = {
       state: null,
       states: [
         undefined,
-        { color: customVars.diagramPalette.yellow }
+        { color: getColorVariant(customVars.diagramPalette.yellow , 'dark', { grade: 0.2 }) }
       ],
     },
     // Endpoint Client 1 Block Highlight
