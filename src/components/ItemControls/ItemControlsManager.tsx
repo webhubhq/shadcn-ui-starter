@@ -7,10 +7,12 @@ import { NodeControls } from './NodeControls/NodeControls';
 import { ConnectorControls } from './ConnectorControls/ConnectorControls';
 import { RectangleControls } from './RectangleControls/RectangleControls';
 import { blue } from '@mui/material/colors';
+import { Button } from '@/components/ui/button';
 
 export const ItemControlsManager = () => {
 
   const [email, setEmail] = useState('');
+  const [expanded, setExpanded] = useState(false);
 
   const itemControls = useUiStateStore((state) => {
     return state.itemControls;
@@ -137,7 +139,14 @@ export const ItemControlsManager = () => {
     },
     'data-storage': {
       header: 'Data storage: build a simple and secure database 🗝️',
-      description: 'Access data storage solutions provided by industry leaders. Security and reliability are our foremost priorities.'
+      description: 'Access data storage solutions provided by industry leaders. Security and reliability are our foremost priorities.',
+      actions: [
+        {
+          text: 'Learn More',
+          onClick: () => setExpanded(true),
+          variant: 'primary',
+        }
+      ],
     },
     'card-terminal': {
       header: 'Commerce Gateway: Streamline Transactions 💳',
@@ -187,16 +196,17 @@ export const ItemControlsManager = () => {
   return (
     <UiElement
       sx={{
-        top: topOffset,
-        minHeight: `calc(100% - ${
+        transition: 'all 0.5s',
+        top: expanded ? 0 : topOffset,
+        ...(expanded ? { left: 0 } : {}),
+        minHeight: expanded ? '100vh' : `calc(100% - ${
           topOffset + theme.customVars.appPadding.y
         }px)`,
         overflowY: 'scroll',
         '&::-webkit-scrollbar': {
           display: 'none'
         },
-        width: '500px',
-        transition: 'opacity 0.5s',
+        width: expanded ? '100vw' : '500px',
         opacity: load ? 1 : 0,
         display: 'flex',
         flexDirection: 'column',
@@ -212,6 +222,7 @@ export const ItemControlsManager = () => {
             <div style={{ fontSize: 16, fontWeight: 'normal' }}>
               {cnt.description}
             </div>
+            {cnt.actions?.length > 0 && cnt.actions.map(({ text = '', onClick = () => {} }) => <Button onClick={onClick}>{text}</Button> )}
           </div>,
           sx: {
             // background: 'rgba(0, 0, 0, 0.2)',

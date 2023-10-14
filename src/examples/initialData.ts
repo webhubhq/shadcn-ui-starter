@@ -98,7 +98,7 @@ export const initialData: InitialData = {
     {
       id: 'client-endpoints',
       iconId: 'desktop',
-      label: 'Front End Websites',
+      label: 'Server',
       // labelHeight: 100,
       position: {
         x: 0,
@@ -112,7 +112,7 @@ export const initialData: InitialData = {
     {
       id: 'webflow',
       iconId: 'block',
-      label: 'Webflow',
+      label: 'Hosting',
       // labelHeight: 100,
       position: {
         x: 0,
@@ -126,7 +126,7 @@ export const initialData: InitialData = {
     {
       id: 'react-nextjs',
       iconId: 'block',
-      label: 'React Next.js',
+      label: 'Next.js App',
       // labelHeight: 100,
       position: {
         x: -3,
@@ -140,7 +140,7 @@ export const initialData: InitialData = {
     {
       id: 'wix',
       iconId: 'block',
-      label: 'Wix',
+      label: 'Node.js Server',
       // labelHeight: 100,
       position: {
         x: 3,
@@ -688,7 +688,7 @@ export const initialData: InitialData = {
         x: 4,
         y: 12
       },
-      label: 'Endpoint Clients',
+      label: 'EC2 Server',
       loading: {
         delay: 3500,
         duration: 1000,

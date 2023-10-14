@@ -21,8 +21,8 @@ export const UiOverlay = () => {
 
   return (
     <>
-      <ItemControlsManager />
       <ToolMenu />
+      <ItemControlsManager />
       {mode.type === 'PLACE_ELEMENT' && mode.icon && (
         <SceneLayer>
           <DragAndDrop icon={mode.icon} tile={mouse.position.tile} />

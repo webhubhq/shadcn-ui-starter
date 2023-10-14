@@ -44,6 +44,7 @@ export const Renderer = () => {
     <Box
       sx={{
         position: 'absolute',
+        background: '#121212',
         top: 0,
         left: 0,
         width: '100%',

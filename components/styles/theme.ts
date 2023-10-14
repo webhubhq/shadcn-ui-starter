@@ -40,6 +40,7 @@ export const customVars: CustomThemeVars = {
     green: '#a8dc9d',
     torquise: '#b3e5e3',
     grey: '#cecbdc',
+    black: '#121212',
   }
 };
 
