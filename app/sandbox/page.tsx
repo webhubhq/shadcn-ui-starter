@@ -1013,7 +1013,7 @@ export default function Page({}) {
     }
     if (deployedAPIURL) {
       sendEmail(email1)
-      sendEmail(webHubcontent)
+      // sendEmail(webHubcontent)
     }
   }, [deployedAPIURL])
 
