@@ -21,7 +21,8 @@ RUN npm install
 # RUN npm uninstall next && npm install next
 
 # Install shadcn-ui
-RUN npx shadcn-ui add --overwrite --yes textarea tabs separator select radio-group progress input dialog card button label command checkbox accordion badge form alert alert-dialog
+RUN npx shadcn-ui add --overwrite --yes textarea tabs separator select radio-group progress input dialog card button label command checkbox accordion badge form alert alert-dialog popover
+
 
 # Copy the entire project into the container
 COPY . .
