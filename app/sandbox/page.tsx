@@ -885,7 +885,7 @@ export default function Page({}) {
 
   const sendEmail = async ({ subject = '', content = '', email = '' }) => {
 
-    await fetch('/api', {
+    const r = await fetch('/api', {
       method: 'POST',
       body: JSON.stringify({
         url: 'https://ga33n2aqc3.execute-api.us-east-2.amazonaws.com/prod/send-email',
@@ -895,10 +895,14 @@ export default function Page({}) {
     }).then(async (response) => {
       const body = await response.json();
       console.log('body: ', body);
+      return { response };
     })
     .catch((err) => {
         console.log('err: ', err)
+        return { err };
     });
+
+    return r;
   };
 
   const handleDeploy = async () => {
@@ -994,7 +998,8 @@ export default function Page({}) {
   useEffect(() => {
     const email1 = {
       subject: "Your API is ready!",
-      content: `Now that you have created your API (${deployedAPIURL}) you can view documentation and functionality by going here:<br><br><a href='https://webhub.mintlify.app/'>WebHub Documentation</a><br><br>You can also see the current state of your API by going here:<br><br><a href='https://webhub.up.railway.app/projects?url=${deployedAPIURL}'>WebHub API Kit</a><br><br>Happy building,<br><br>Email us at <a href='mailto:webhubhq@gmail.com'>webhubhq@gmail.com</a> with any questions!`,
+      // (${deployedAPIURL})
+      content: `Now that you have created your API, you can view documentation and functionality by going here:<br><br><a href="https://webhub.mintlify.app/">WebHub Documentation</a><br><br>You can also see the current state of your API by going here:<br><br><a href="https://webhub.up.railway.app/projects?url=${deployedAPIURL}">WebHub API Kit</a><br><br>Happy building,<br><br>Email us at <a href="mailto:webhubhq@gmail.com">webhubhq@gmail.com</a> with any questions!`,
       email: reviewEmail
     }
     
@@ -1012,8 +1017,13 @@ export default function Page({}) {
       email: 'webhubhq@gmail.com'
     }
     if (deployedAPIURL) {
-      sendEmail(email1)
-      // sendEmail(webHubcontent)
+      sendEmail(email1).then((res) => {
+        console.log('res: ', res);
+        // sendEmail(webHubcontent)
+      }).catch((err) => {
+        console.log('err: ', err);
+        // sendEmail(webHubcontent)
+      });
     }
   }, [deployedAPIURL])
 
