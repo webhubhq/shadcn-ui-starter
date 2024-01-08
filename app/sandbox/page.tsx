@@ -1018,13 +1018,8 @@ export default function Page({}) {
       email: 'webhubhq@gmail.com'
     }
     if (deployedAPIURL) {
-      sendEmail(email1).then((res) => {
-        console.log('res: ', res);
-        // sendEmail(webHubcontent)
-      }).catch((err) => {
-        console.log('err: ', err);
-        // sendEmail(webHubcontent)
-      });
+      sendEmail(email1);
+      sendEmail(webHubcontent);
     }
   }, [deployedAPIURL])
 
