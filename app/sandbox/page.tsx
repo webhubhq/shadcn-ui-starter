@@ -925,7 +925,7 @@ export default function Page({}) {
         } else {
           // const { upRes: { data: { r_id, api_url } } } = body;
           console.log('body: ', body);
-          const { api_url } = body;
+          const { api_url, r_id } = body;
           console.log('api_url: ', api_url)
           setDeployedAPIURL(api_url.slice(-1) === '/' ? api_url.slice(0, -1) : api_url);
           setDeployStageProgress(100);
