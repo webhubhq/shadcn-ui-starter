@@ -47,9 +47,9 @@ import {
 } from "@/components/ui/tooltip"
 
 export function ThemeCustomizer({
-    selectedColor,
+    selectedColor = "rose",
     setSelectedColor = () => {},
-    backgroundColor,
+    backgroundColor = "dark",
     setBackgroundColor = () => {},
     clearPixels = () => {} }) {
   // const [config, setConfig] = useConfig()
@@ -138,6 +138,7 @@ function Customizer({
                   variant={"outline"}
                   size="sm"
                   key={theme.name}
+                    // @ts-ignore
                     onClick={() => setSelectedColor(theme.name)}
                   className={cn(
                     "justify-start",
@@ -197,6 +198,7 @@ function Customizer({
                   variant={"outline"}
                   size="sm"
                   onClick={() => {
+                    // @ts-ignore
                     setBackgroundColor("light");
                     setMode("light");
                     }}
@@ -209,6 +211,7 @@ function Customizer({
                   variant={"outline"}
                   size="sm"
                   onClick={() => {
+                    // @ts-ignore
                     setBackgroundColor("dark");
                     setMode("dark");
                 }}

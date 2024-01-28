@@ -62,13 +62,15 @@ const rgbMapping = {
     255: 9
   };
 
-  function hslToRgb(h, s, l) {
+  // @ts-ignore
+  const hslToRgb = (h, s, l) => {
     // Convert HSL to RGB
     let r, g, b;
   
     if (s === 0) {
       r = g = b = Math.round(l / 100 * 255);
     } else {
+        // @ts-ignore
       const hueToRgb = (p, q, t) => {
         if (t < 0) t += 1;
         if (t > 1) t -= 1;
@@ -89,20 +91,26 @@ const rgbMapping = {
       return [r, g, b];
   }
   
-  function simplifyRGB(rgbColor) {
+  // @ts-ignore
+  const simplifyRGB = (rgbColor) => {
+    // @ts-ignore
     const simplifiedColor = rgbColor.map(value => {
       const keys = Object.keys(rgbMapping);
+      // @ts-ignore
       const closestValue = keys.reduce((a, b) => Math.abs(b - value) < Math.abs(a - value) ? b : a);
+      // @ts-ignore
       return rgbMapping[closestValue];
     });
     return simplifiedColor;
   }
 
-    function hslToScm(h,s,l) {
-        return simplifyRGB(hslToRgb(h,s,l))
-    }
+  // @ts-ignore
+const hslToScm = (h,s,l) => {
+    return simplifyRGB(hslToRgb(h,s,l))
+}
 
 
+    // @ts-ignore
     const calcMatrixIndex = (col, row, rows) => (col * rows) + (col % 2 ? row : (rows - 1 - row))
 
 

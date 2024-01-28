@@ -41,7 +41,7 @@ import { RID, calcMatrixIndex } from '@/utils/utils';
 import { Separator } from '@/components/ui/separator';
 
 // @ts-ignore
-export default function Whiteboard({ className, ...props }) {
+export default function Whiteboard() {
 
     const [websocketRMID, setWebsocketRMID] = useState('myroom-matrix');
     const [messageHistory, setMessageHistory, handleSendJsonMessage, lastJsonMessage, readyState, connectionStatus, getWebSocket, websocketID] = useContext(WebsocketContext);
@@ -108,6 +108,8 @@ export default function Whiteboard({ className, ...props }) {
     const gridChangesRef = useRef({});
 
     // Function to handle mouse enter event
+
+    // @ts-ignore
     const handleMouseEnter = (col, row) => {
         if (dragging) {
             gridRef.current[col][row] = selectedColor; // Update hover state
@@ -123,6 +125,8 @@ export default function Whiteboard({ className, ...props }) {
     // };
 
     // Function to handle drag start event
+
+    // @ts-ignore
     const handleDragStart = (col, row) => {
         gridRef.current[col][row] = selectedColor; // Update hover state
         // @ts-ignore
@@ -171,6 +175,7 @@ export default function Whiteboard({ className, ...props }) {
     const sendGridChanges = () => {
         const arr = []
         for(const [index, color] of Object.entries(gridChangesRef.current)) {
+            // @ts-ignore
             arr.push(...[parseInt(index), ..._colors[color].scm])
 
             // clearing what was drawn
@@ -186,7 +191,9 @@ export default function Whiteboard({ className, ...props }) {
         })
     }
 
+    // @ts-ignore
     const sendBackgroundChanges = (mde) => {
+        // @ts-ignore
         const scm = _bg_colors[mde]?.scm;
         console.log("background scm: ", scm);
 
@@ -206,7 +213,9 @@ export default function Whiteboard({ className, ...props }) {
         setUpdate(RID());
     };
 
+    // @ts-ignore
     const sendClearPixels = (mde) => {
+        // @ts-ignore
         const scm = _bg_colors[mde]?.scm;
         console.log("clear: ", scm);
 
@@ -311,7 +320,6 @@ export default function Whiteboard({ className, ...props }) {
     <div key="my-whiteboard" className="flex flex-row">
          <Card
             className={cn("min-w-[920px] min-h-[1300px] flex flex-row overflow-hidden")}
-            {...props}
         >
             {gridRef.current.map((arr, col_i) => <div id={`col_i-${col_i}`} className="flex flex-col">
                 {arr.map((bool, row_i) => <div
@@ -323,6 +331,7 @@ export default function Whiteboard({ className, ...props }) {
                         maxHeight: 20,
                         // borderLeft: col_i > 0 ? '1px rgba(255,255,255, 0.1)' : 'none',
                         // borderTop: row_i > 0 ? '1px rgba(255,255,255, 0.1)' : 'none',
+                        // @ts-ignore
                         background: gridRef.current[col_i][row_i] ? _colors[gridRef.current[col_i][row_i]].tw : 'transparent'
                     }}
                     onMouseDown={() => handleDragStart(col_i, row_i)} // Handle drag start event
@@ -334,8 +343,10 @@ export default function Whiteboard({ className, ...props }) {
          </Card>
          <ThemeCustomizer
             selectedColor={selectedColor}
+            // @ts-ignore
             setSelectedColor={setSelectedColor}
             backgroundColor={backgroundColor}
+            // @ts-ignore
             setBackgroundColor={setBackgroundColor}
             clearPixels={clearPixels}
         />
