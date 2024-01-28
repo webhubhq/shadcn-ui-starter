@@ -7,9 +7,9 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { ThemeProvider, createTheme } from '@mui/material';
 
-import { themeConfig } from '../../src/styles/theme';
-import { BasicEditor } from '@/src/examples/BasicEditor/BasicEditor';
-import { useUiStateStore } from '@/src/stores/uiStateStore';
+import { themeConfig } from '../../src-isoflow/styles/theme';
+import { BasicEditor } from '@/src-isoflow/examples/BasicEditor/BasicEditor';
+import { useUiStateStore } from '@/src-isoflow/stores/uiStateStore';
 
 import {
     AlertDialog,

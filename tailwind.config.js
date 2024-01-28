@@ -48,6 +48,16 @@ module.exports = {
           foreground: "hsl(var(--card-foreground))",
         },
       },
+      backgroundColor: {
+        // customrose: {
+        //   DEFAULT: "hsl(346.8, 77.2%, 49.8%)",
+        // },
+        // customgreen: {
+        //   DEFAULT: "hsl(142.1, 70.6%, 45.3%)",
+        // },
+        customrose: "hsl(346.8, 77.2%, 49.8%)",
+        customgreen: "hsl(142.1, 70.6%, 45.3%)",
+      },
       borderRadius: {
         lg: `var(--radius)`,
         md: `calc(var(--radius) - 2px)`,

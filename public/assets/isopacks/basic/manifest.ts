@@ -1,4 +1,4 @@
-import type { SceneInput } from 'src/types';
+import type { SceneInput } from '@/src-isoflow/types';
 import { createCategoryIcon } from '../utils';
 import Block from './icons/block.svg';
 import Cube from './icons/cube.svg';

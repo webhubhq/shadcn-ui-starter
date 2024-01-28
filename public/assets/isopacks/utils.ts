@@ -1,4 +1,4 @@
-import type { IconInput } from 'src/types';
+import type { IconInput } from '@/src-isoflow/types';
 
 interface CreateIconArgs {
   id: string;
