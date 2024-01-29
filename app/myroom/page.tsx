@@ -386,7 +386,7 @@ export default function Whiteboard() {
     useEffect(() => {
         if (lastJsonMessage !== null) {
             // mangage data coming into the websocket
-            console.log('lastJsonMessage: ', lastJsonMessage)
+            // console.log('lastJsonMessage: ', lastJsonMessage)
 
             const {
             // Connection info: (unused)
@@ -577,9 +577,9 @@ export default function Whiteboard() {
         <AlertDialog open={!begin} defaultOpen>
             <AlertDialogContent>
                 <AlertDialogHeader>
-                <AlertDialogTitle>Connecting...</AlertDialogTitle>
+                <AlertDialogTitle>{me ? "Connected!" : "Connecting..."}</AlertDialogTitle>
                 <AlertDialogDescription>
-                    This should only take a few seconds
+                    {me ? "You're all set!" : "This should only take a few seconds"}
                 </AlertDialogDescription>
                 </AlertDialogHeader>
                     {me && <div className="flex flex-row items-center">
@@ -623,6 +623,9 @@ export default function Whiteboard() {
                         // @ts-ignore
                         background: gridRef.current[col_i][row_i] ? _colors[gridRef.current[col_i][row_i]].tw : 'transparent'
                     }}
+                    onTouchStart={() => handleDragStart(col_i, row_i)} // Handle drag start event
+                    onTouchEnd={() => handleDragEnd()} // Handle drag end event
+                    onTouchMove={() => handleMouseEnter(col_i, row_i)} // Handle mouse enter event
                     onMouseDown={() => handleDragStart(col_i, row_i)} // Handle drag start event
                     onMouseUp={() => handleDragEnd()} // Handle drag end event
                     onMouseEnter={() => handleMouseEnter(col_i, row_i)} // Handle mouse enter event
