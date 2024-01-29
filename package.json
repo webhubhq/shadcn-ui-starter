@@ -50,6 +50,7 @@
     "resend": "^1.0.0",
     "shadcn-ui": "^0.3.0",
     "sharp": "^0.33.2",
+    "sonner": "^1.4.0",
     "tailwind-merge": "^1.13.2",
     "tailwindcss-animate": "^1.0.6",
     "unfetch": "4.2.0",

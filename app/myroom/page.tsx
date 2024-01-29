@@ -14,6 +14,9 @@ import { ThemeCustomizer } from "./components/theme-customizer"
  
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+
+import { toast } from "sonner"
+
 import {
   Card,
   CardContent,
@@ -386,7 +389,7 @@ export default function Whiteboard() {
     useEffect(() => {
         if (lastJsonMessage !== null) {
             // mangage data coming into the websocket
-            // console.log('lastJsonMessage: ', lastJsonMessage)
+            console.log('lastJsonMessage: ', lastJsonMessage)
 
             const {
             // Connection info: (unused)
@@ -496,19 +499,83 @@ export default function Whiteboard() {
             }
             
             if (response?.$get) {
-                const { data } = response.$get;
+                const { success, data } = response.$get;
                 console.log('room_data: ', data);
                 setViewers(data);
+
+                if (!success) {
+                    toast("Error!", {
+                        description: "Unable to see who's in the room",
+                        action: {
+                            label: "Refresh",
+                            onClick: () => location.reload(),
+                        },
+                    })
+                }
             }
 
+
+            if (response?.$notification) {
+                const { success, data } = response.$notification;
+
+                if (!success) {
+                    toast("Error!", {
+                        description: "Unable to send updates to other clients",
+                        action: {
+                            label: "Refresh",
+                            onClick: () => location.reload(),
+                        },
+                    })
+                }
+            }
+
+            if (response?.$setdoc) {
+                const { success, data } = response.$setdoc;
+
+                if (!success) {
+                    toast("Error!", {
+                        description: "Changes not saved to database",
+                        action: {
+                            label: "Refresh",
+                            onClick: () => location.reload(),
+                        },
+                    })
+                }
+            }
+
+            if (response?.$updatedoc) {
+                const { success, data } = response.$updatedoc;
+
+                if (!success) {
+                    toast("Error!", {
+                        description: "Changes not saved to database",
+                        action: {
+                            label: "Refresh",
+                            onClick: () => location.reload(),
+                        },
+                    })
+                }
+            }
+
+
             if (response?.$getdoc) {
-                const { data } = response.$getdoc;
+                const { success, data } = response.$getdoc;
                 // console.log('doc_data: ', data);
 
                 if (!firstSyncWithDoc) {
                     setFirstSyncWithDoc(true);
                 }
                 setRmDoc(data);
+
+                if (!success) {
+                    toast("Error!", {
+                        description: "Unable to sync with database",
+                        action: {
+                            label: "Refresh",
+                            onClick: () => location.reload(),
+                        },
+                    })
+                }
             }
 
         }

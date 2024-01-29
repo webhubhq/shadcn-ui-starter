@@ -13,6 +13,7 @@ import Image from "next/image"
 
 import { Separator } from '@/components/ui/separator';
 import { SidebarNav } from './components/sidebar-nav';
+import { Toaster } from "@/components/ui/sonner"
 
 
 const sidebarNavItems = [
@@ -160,6 +161,7 @@ export default function MainLayout({ children}) {
             <div className="flex-1 lg:max-w-2xl">{children}</div>
           </WebsocketContext.Provider>
         </div>
+        <Toaster />
       </div>
     </>
   )
