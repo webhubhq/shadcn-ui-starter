@@ -569,6 +569,64 @@ export default function Whiteboard() {
         }
 
     }, [websocketID]);
+
+
+    const accordionComp = <Accordion type="single" collapsible className="w-full">
+    <AccordionItem value="item-1">
+        <AccordionTrigger>Me</AccordionTrigger>
+        <AccordionContent>
+            <div className="flex flex-col">
+                {me && <div className="flex flex-row justify-between">
+                    <Badge
+                        className="rounded-sm"
+                        style={{
+                            // @ts-ignore
+                            background: _colors[me.color].tw,
+                        }}
+                    
+                    >
+                        {/* @ts-ignore */}
+                        {me.name}
+                    </Badge>
+                    {/* <div className="text-sm text-gray-500">{me.date}</div> */}
+                </div>}
+            </div>
+        </AccordionContent>
+    </AccordionItem>
+    <AccordionItem value="item-2">
+        <AccordionTrigger>{`${others.length} other viewer${others.length === 1 ? '' : 's'}`}</AccordionTrigger>
+        <AccordionContent>
+            <div className="flex flex-col">
+                {others.map(({ name, color, date }) => <div className="flex flex-row justify-between mb-2">
+                    <Badge
+                        className="rounded-sm"
+                        style={{
+                            // @ts-ignore
+                            background: _colors[color].tw,
+                        }}
+                    >{name}</Badge>
+                    {/* <div className="text-xs text-gray-500">{date}</div> */}
+                </div>)}
+            </div>
+        </AccordionContent>
+    </AccordionItem>
+    <AccordionItem value="item-3">
+        <AccordionTrigger>Raspberry Pi Client</AccordionTrigger>
+        <AccordionContent>
+            <div className="flex flex-col">
+                <div className="flex flex-row justify-between">
+                    <div
+                        className="text-sm text-success"
+                        style={{
+                            color: _colors[rpclient ? 'green' : 'rose'].tw,
+                        }}
+                    >{rpclient ? 'Online' : 'Offline'}</div>
+                    {/* <div className="text-sm text-gray-500">{me.date}</div> */}
+                </div>
+            </div>
+        </AccordionContent>
+    </AccordionItem>
+</Accordion>
   
 
   return (
@@ -623,9 +681,12 @@ export default function Whiteboard() {
                         // @ts-ignore
                         background: gridRef.current[col_i][row_i] ? _colors[gridRef.current[col_i][row_i]].tw : 'transparent'
                     }}
-                    onTouchStart={() => handleDragStart(col_i, row_i)} // Handle drag start event
+                    onTouchStart={(e) => {
+                        e.preventDefault();
+                        handleDragStart(col_i, row_i);
+                    }} // Handle drag start event
                     onTouchEnd={() => handleDragEnd()} // Handle drag end event
-                    onTouchMove={() => handleMouseEnter(col_i, row_i)} // Handle mouse enter event
+                    onTouchMove={(e) => handleMouseEnter(col_i, row_i)} // Handle mouse enter event
                     onMouseDown={() => handleDragStart(col_i, row_i)} // Handle drag start event
                     onMouseUp={() => handleDragEnd()} // Handle drag end event
                     onMouseEnter={() => handleMouseEnter(col_i, row_i)} // Handle mouse enter event
@@ -650,31 +711,11 @@ export default function Whiteboard() {
                     <DrawerTrigger asChild>
                     <Button className="md:hidden">
                         <EyeOpenIcon className="mr-2 h-4 w-4" />
-                        Viewers
+                        {others.length + 1}
                     </Button>
                     </DrawerTrigger>
                     <DrawerContent className="p-6 pt-0">
-                        <Accordion type="single" collapsible className="w-full">
-                            <AccordionItem value="item-1">
-                                <AccordionTrigger>Is it accessible?</AccordionTrigger>
-                                <AccordionContent>
-                                Yes. It adheres to the WAI-ARIA design pattern.
-                                </AccordionContent>
-                            </AccordionItem>
-                            <AccordionItem value="item-2">
-                                <AccordionTrigger>Is it styled?</AccordionTrigger>
-                                <AccordionContent>
-                                Yes. It comes with default styles that matches the other
-                                components&apos; aesthetic.
-                                </AccordionContent>
-                            </AccordionItem>
-                            <AccordionItem value="item-3">
-                                <AccordionTrigger>Is it animated?</AccordionTrigger>
-                                <AccordionContent>
-                                Yes. It&apos;s animated by default, but you can disable it if you prefer.
-                                </AccordionContent>
-                            </AccordionItem>
-                        </Accordion>
+                        {accordionComp}
                     </DrawerContent>
                 </Drawer>
                 <div className="hidden md:flex">
@@ -682,69 +723,14 @@ export default function Whiteboard() {
                         <PopoverTrigger asChild>
                             <Button>
                                 <EyeOpenIcon className="mr-2 h-4 w-4" />
-                                Viewers
+                                {others.length + 1}
                             </Button>
                         </PopoverTrigger>
                         <PopoverContent
                             align="center"
                             className="z-40 w-[340px] rounded-[0.5rem] bg-white p-6 dark:bg-zinc-950"
                         >
-                            <Accordion type="single" collapsible className="w-full">
-                                <AccordionItem value="item-1">
-                                    <AccordionTrigger>Me</AccordionTrigger>
-                                    <AccordionContent>
-                                        <div className="flex flex-col">
-                                            {me && <div className="flex flex-row justify-between">
-                                                <Badge
-                                                    className="rounded-sm"
-                                                    style={{
-                                                        // @ts-ignore
-                                                        background: _colors[me.color].tw,
-                                                    }}
-                                                
-                                                >
-                                                    {/* @ts-ignore */}
-                                                    {me.name}
-                                                </Badge>
-                                                {/* <div className="text-sm text-gray-500">{me.date}</div> */}
-                                            </div>}
-                                        </div>
-                                    </AccordionContent>
-                                </AccordionItem>
-                                <AccordionItem value="item-2">
-                                    <AccordionTrigger>{`${others.length} other viewer${others.length === 1 ? '' : 's'}`}</AccordionTrigger>
-                                    <AccordionContent>
-                                        <div className="flex flex-col">
-                                            {others.map(({ name, color, date }) => <div className="flex flex-row justify-between mb-2">
-                                                <Badge
-                                                    className="rounded-sm"
-                                                    style={{
-                                                        // @ts-ignore
-                                                        background: _colors[color].tw,
-                                                    }}
-                                                >{name}</Badge>
-                                                {/* <div className="text-xs text-gray-500">{date}</div> */}
-                                            </div>)}
-                                        </div>
-                                    </AccordionContent>
-                                </AccordionItem>
-                                <AccordionItem value="item-3">
-                                    <AccordionTrigger>Raspberry Pi Client</AccordionTrigger>
-                                    <AccordionContent>
-                                        <div className="flex flex-col">
-                                            <div className="flex flex-row justify-between">
-                                                <div
-                                                    className="text-sm text-success"
-                                                    style={{
-                                                        color: _colors[rpclient ? 'green' : 'rose'].tw,
-                                                    }}
-                                                >{rpclient ? 'Online' : 'Offline'}</div>
-                                                {/* <div className="text-sm text-gray-500">{me.date}</div> */}
-                                            </div>
-                                        </div>
-                                    </AccordionContent>
-                                </AccordionItem>
-                            </Accordion>
+                            {accordionComp}
                         </PopoverContent>
                     </Popover>
                 </div>
