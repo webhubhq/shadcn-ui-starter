@@ -1,4 +1,6 @@
+// @ts-ignore
 import unfetch from 'unfetch';
+import { uniqueNamesGenerator, adjectives, colors, animals } from 'unique-names-generator';
 
 // import getConfig from 'next/config';
 
@@ -110,9 +112,22 @@ const hslToScm = (h,s,l) => {
 }
 
 
-    // @ts-ignore
-    const calcMatrixIndex = (col, row, rows) => (col * rows) + (col % 2 ? row : (rows - 1 - row))
+// @ts-ignore
+const calcMatrixIndex = (col, row, rows) => (col * rows) + (col % 2 ? row : (rows - 1 - row))
+
+const calcMatrixColRow = (index: number, rows: number) => {
+    const col = Math.floor(index / rows);
+    const remainder_rows = index % rows;
+    const row = col % 2 ? remainder_rows : rows - 1 - remainder_rows;
+
+    return { col, row }
+}
+
+const randomNameGenerator = () => uniqueNamesGenerator({
+    dictionaries: [colors, animals],
+    separator: ' ',
+}); // big_red_donkey
 
 
-export { deployCRUDAPI, RID, extractDomain, extractRegionAndAccountIdFromExecutionArn, hslToRgb, simplifyRGB, hslToScm, calcMatrixIndex }
+export { deployCRUDAPI, RID, extractDomain, extractRegionAndAccountIdFromExecutionArn, hslToRgb, simplifyRGB, hslToScm, calcMatrixIndex, calcMatrixColRow, randomNameGenerator }
 

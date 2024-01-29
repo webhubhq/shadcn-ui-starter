@@ -45,7 +45,7 @@ interface SettingsLayoutProps {
 // @ts-ignore
 export default function MainLayout({ children}) {
 
-  const [socketUrl, setSocketUrl] = useState('wss://k6e1r6q2fl.execute-api.us-east-2.amazonaws.com/stage-test-0-llk3CE-lUIUn-7c7e6eb/');
+  const [socketUrl, setSocketUrl] = useState('wss://a7uirjun9k.execute-api.us-east-2.amazonaws.com/stage-test-0-eqy3zt-KMrU6-117be9d/');
   const [messageHistory, setMessageHistory] = useState([]);
   const [websocketID, setWebsocketID] = useState();
 
@@ -58,7 +58,7 @@ export default function MainLayout({ children}) {
     getWebSocket,
   } = useWebSocket(socketUrl, {
     onOpen: () => console.log('opened'),
-    //Will attempt to reconnect on all close events, such as server shutting down
+    // Will attempt to reconnect on all close events, such as server shutting down
     shouldReconnect: (closeEvent) => true,
   });
 
@@ -72,6 +72,15 @@ export default function MainLayout({ children}) {
 
 
   const handleSendJsonMessage = useCallback((json: any) => sendJsonMessage(json), []);
+
+  const handleDisconnect = () => {
+    const json = {
+        "action": "request",
+        _disconnect: true,
+    };
+
+    handleSendJsonMessage(json);
+  };
   
 
   useEffect(() => {
@@ -86,6 +95,36 @@ export default function MainLayout({ children}) {
     // @ts-ignore
     setWebsocketID(RID());
   }, [])
+
+  useEffect(() => {
+
+    const beforeunloadCallback = (ev: Event | undefined) => {
+      console.log("onbeforeunload");
+      const e = ev || window.event;
+      //console.log(e)
+
+      // @ts-ignore
+      e.preventDefault();
+      if (e) {
+        // @ts-ignore
+        e.returnValue = ''
+      }
+      return '';
+    };
+
+    const unloadCallback = (ev: Event | undefined) => {
+      console.log("onunload");
+      // handleDisconnect();
+    };
+
+    window.addEventListener("beforeunload", beforeunloadCallback);
+    window.addEventListener("unload", unloadCallback);
+    return () => {
+      //cleanup function
+      window.removeEventListener("beforeunload", beforeunloadCallback);
+      window.removeEventListener("unload", unloadCallback);
+    }
+  });
 
   return (
     <>

@@ -64,7 +64,11 @@ export function ThemeCustomizer({
     <div className="flex space-x-2">
       <Drawer>
         <DrawerTrigger asChild>
-          <Button variant="outline" className="md:hidden">
+          <Button
+            // @ts-ignore
+            variant="outline"
+            className="md:hidden"
+          >
             <Paintbrush className="mr-2 h-4 w-4" />
             Customize
           </Button>
@@ -76,7 +80,11 @@ export function ThemeCustomizer({
       <div className="hidden md:flex">
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="outline">
+            
+            <Button
+              // @ts-ignore
+              variant="outline"
+            >
               <Paintbrush className="mr-2 h-4 w-4" />
               Customize
             </Button>
@@ -135,6 +143,7 @@ function Customizer({
 
               return mounted ? (
                 <Button
+                  // @ts-ignore
                   variant={"outline"}
                   size="sm"
                   key={theme.name}
@@ -171,6 +180,7 @@ function Customizer({
           <Label className="text-xs">Reset Whiteboard</Label>
           <div className="grid grid-cols-5 gap-2">
             <Button
+                  // @ts-ignore
                   variant={"outline"}
                   size="sm"
                 //   onClick={() => {
@@ -185,7 +195,7 @@ function Customizer({
                     // config.radius === parseFloat(value) && "border-2 border-primary"
                   )}
                 >
-                  Clear
+                  Clear Whiteboard
                 </Button>
           </div>
         </div>
@@ -195,6 +205,7 @@ function Customizer({
             {mounted ? (
               <>
                 <Button
+                  // @ts-ignore
                   variant={"outline"}
                   size="sm"
                   onClick={() => {
@@ -208,6 +219,7 @@ function Customizer({
                   Light
                 </Button>
                 <Button
+                  // @ts-ignore
                   variant={"outline"}
                   size="sm"
                   onClick={() => {

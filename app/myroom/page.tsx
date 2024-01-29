@@ -37,15 +37,52 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 
-import { RID, calcMatrixIndex } from '@/utils/utils';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+  } from "@/components/ui/alert-dialog"
+
+import {
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
+  } from "@/components/ui/drawer"
+
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from "@/components/ui/accordion"
+
+import { RID, calcMatrixColRow, calcMatrixIndex, randomNameGenerator } from '@/utils/utils';
 import { Separator } from '@/components/ui/separator';
+import { EyeOpenIcon } from '@radix-ui/react-icons';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Badge } from '@/components/ui/badge';
 
 // @ts-ignore
 export default function Whiteboard() {
 
     const [websocketRMID, setWebsocketRMID] = useState('myroom-matrix');
     const [messageHistory, setMessageHistory, handleSendJsonMessage, lastJsonMessage, readyState, connectionStatus, getWebSocket, websocketID] = useContext(WebsocketContext);
+    const [inRoom, setInRoom] = useState(false);
+    const [firstSyncWithDoc, setFirstSyncWithDoc] = useState(false);
+    const [begin, setBegin] = useState(false);
 
+    const _unique_db_name = "test-0-w3xfsh";
 
     const _colors = {
         rose:   {
@@ -81,6 +118,17 @@ export default function Whiteboard() {
         },
     };
 
+    const scmMatchingColor = (scm_obj: object) => {
+        for (const [color, { scm }] of Object.entries(_colors)) {
+            // @ts-ignore
+            if (scm_obj[0] === scm[0] && scm_obj[1] === scm[1] && scm_obj[2] === scm[2]) {
+                return color;
+            }
+        }
+
+        return null;
+    }
+
     const _bg_colors = {
         light: {
             hsl: [0, 0, 1],
@@ -98,7 +146,7 @@ export default function Whiteboard() {
     const rows = 65;
     const cols = 46;
 
-    const { resolvedTheme: mode } = useTheme()
+    const { setTheme: setMode, resolvedTheme: mode } = useTheme()
 
     const [selectedColor, setSelectedColor] = useState("rose");
     const [backgroundColor, setBackgroundColor] = useState(mode);
@@ -106,6 +154,47 @@ export default function Whiteboard() {
     const [update, setUpdate] = useState(RID());
     const gridRef = useRef(Array.from(Array(cols), () => new Array(rows).fill(null)));
     const gridChangesRef = useRef({});
+
+    const [viewers, setViewers] = useState({});
+    const [rmDoc, setRmDoc] = useState();
+
+    const formatViwersData = () => {
+
+        const v = {
+            me: undefined,
+            others: [],
+            rpclient: undefined,
+        }
+
+        // @ts-ignore
+        for (const [connectionId, { user }] of Object.entries(viewers)) {
+
+            const { name, websocket_id, type, date } = user || {};
+
+            if (type === "web-controller") {
+
+                if (websocket_id === websocketID) {
+                    v.me = user;
+                } else {
+                    // @ts-ignore
+                    v.others.push(user);
+                }
+
+
+            } else if (type === "raspberry-pi-client") {
+                // @ts-ignore
+                if (!v.rpclient || (v.rpclient && v.rpclient.date < date)) {
+                    v.rpclient = user;
+                }
+            }
+        }
+
+        return v;
+    };
+
+    const {
+        me, others, rpclient
+    } = formatViwersData();
 
     // Function to handle mouse enter event
 
@@ -134,14 +223,12 @@ export default function Whiteboard() {
         // sendGridChangesDebounced();
         setUpdate(RID());
         setDragging(true);
-        console.log('start')
     };
 
     // Function to handle drag end event
     const handleDragEnd = () => {
         setDragging(false);
         sendGridChanges();
-        console.log('end')
     };
 
     const notifications = [
@@ -160,13 +247,16 @@ export default function Whiteboard() {
     ];
 
     // @ts-ignore
-    const formatAndSendMsg = ({ _set, _get, _notification }) => {
+    const formatAndSendMsg = ({ _set, _get, _notification, _setdoc, _updatedoc, _getdoc }) => {
         const json = {
             "action": "request",
             "rm": websocketRMID,
             _set: _set || undefined,
             _get: _get || undefined,
             _notification: _notification || undefined,
+            _setdoc: _setdoc || undefined,
+            _updatedoc: _updatedoc || undefined,
+            _getdoc: _getdoc || undefined,
         };
 
         handleSendJsonMessage(json);
@@ -174,20 +264,35 @@ export default function Whiteboard() {
 
     const sendGridChanges = () => {
         const arr = []
+        const points_obj = {};
         for(const [index, color] of Object.entries(gridChangesRef.current)) {
             // @ts-ignore
             arr.push(...[parseInt(index), ..._colors[color].scm])
+
+            // record an equivalent data for points in doc whiteboard
+            
+            // @ts-ignore
+            points_obj[index] = _colors[color].scm;
 
             // clearing what was drawn
             // @ts-ignore
             delete gridChangesRef.current[index];
         }
 
-        console.log('arr: ', arr)
+        // console.log('arr: ', arr)
 
         // @ts-ignore
         formatAndSendMsg({
-            _notification: { "points": arr }
+            _notification: { "points": arr },
+            _updatedoc: {
+                db: { mongodb: { unique_db_name: _unique_db_name } },
+                doc: {
+                    whiteboard: {
+                        // updating points
+                        points: points_obj,
+                    }
+                }
+            }
         })
     }
 
@@ -199,15 +304,34 @@ export default function Whiteboard() {
 
         if (scm) {
             // @ts-ignore
-            formatAndSendMsgDebounced({
-                _notification: { "background": scm }
+            formatAndSendMsg({
+                _notification: { "background": scm },
+                _updatedoc: {
+                    db: { mongodb: { unique_db_name: _unique_db_name } },
+                    doc: {
+                        whiteboard: {
+                            // setting background
+                            background: scm,
+                        }
+                    }
+                }
             })
         }
         
     };
 
+    const syncWithDoc = () => {
+
+        // @ts-ignore
+        formatAndSendMsg({
+            _notification: { "sync-with-doc": true },
+            _getdoc: { db: { mongodb: { unique_db_name: _unique_db_name } } }
+        })
+        
+    };
+
     const clearPixels = () => {
-        console.log("clear pixels")
+        // console.log("clear pixels")
         sendClearPixels(backgroundColor)
         gridRef.current = Array.from(Array(cols), () => new Array(rows).fill(null))
         setUpdate(RID());
@@ -217,15 +341,37 @@ export default function Whiteboard() {
     const sendClearPixels = (mde) => {
         // @ts-ignore
         const scm = _bg_colors[mde]?.scm;
-        console.log("clear: ", scm);
+        // console.log("clear: ", scm);
 
         if (scm) {
             // @ts-ignore
             formatAndSendMsg({
-                _notification: { "clear": scm }
+                _notification: { "clear": scm },
+                _setdoc: {
+                    db: { mongodb: { unique_db_name: _unique_db_name } },
+                    doc: {
+                        whiteboard: {
+                            // setting background
+                            background: { 0: scm[0], 1: scm[1], 2: scm[2] },
+                            // clearing points
+                            points: undefined,
+                        }
+                    }
+                }
             })
         }
         
+    };
+
+    const updateGridRefWithPoints = (points: object) => {
+        for (const [index, scm_obj ] of Object.entries(points)) {
+            const color = scmMatchingColor(scm_obj)
+
+            if (color) {
+                const { col, row } = calcMatrixColRow(parseInt(index), rows);
+                gridRef.current[col][row] = color;
+            }
+        }
     };
 
     const formatAndSendMsgDebounced = useRef(
@@ -245,12 +391,12 @@ export default function Whiteboard() {
             const {
             // Connection info: (unused)
             // connectionId,
-            // rm,
+            rm,
 
-            // broadcast keys: $enter_rm, $set, $notification, $disconnect,
+            // broadcast keys: $enter_rm, $set, $notification, $disconnect, $setdoc, $updatedoc
             broadcast,
             
-            // response keys: $enter_rm, $set_rm, $notification, $set, $get,
+            // response keys: $enter_rm, $set_rm, $notification, $set, $get, $setdoc, $updatedoc, $getdoc
             response,
 
             } = lastJsonMessage;
@@ -261,6 +407,11 @@ export default function Whiteboard() {
                 // make sure your not recieving notifications that are coming from yourself
                 if (user.websocket_id !== websocketID) {
 
+                    // @ts-ignore
+                    if (!viewers[connectionId]) {
+                        // found new user so we will add them to viewers object
+                        setViewers((prevState) => ({...prevState, [connectionId]: { user } }))
+                    }
                 }
 
             }
@@ -288,36 +439,174 @@ export default function Whiteboard() {
                     connectionId,
                     data,
                 } = broadcast.$notification;
+
+                console.log('notification data: ', data);
+
+                if (data.points) {
+
+                    // convert points into object
+
+                    const points_obj = {};
+
+                    // @ts-ignore
+                    for (let i = 0; i < data.points; i += 4) {
+                        // @ts-ignore
+                        points_obj[data.points[i]] = [
+                            data.points[i + 1],
+                            data.points[i + 2],
+                            data.points[i + 3],
+                        ];
+                    }
+
+                    updateGridRefWithPoints(points_obj)
+                    setUpdate(RID())
+                }
+                
+
+
             }
 
+            if (broadcast?.$setdoc) {
+                const {
+                    connectionId,
+                    data,
+                } = broadcast.$setdoc;
+
+                setRmDoc(data);
+            }
+
+            if (broadcast?.$updatedoc) {
+                const {
+                    connectionId,
+                    data,
+                } = broadcast.$updatedoc;
+
+                setRmDoc(data);
+            }
+
+
+
+            if (response?.$enter_rm) {
+                const { success } = response.$enter_rm;
+                if (success && rm === websocketRMID) {
+                    setInRoom(true);
+                }
+            }
+            
             if (response?.$get) {
                 const { data } = response.$get;
-
+                console.log('room_data: ', data);
+                setViewers(data);
             }
 
+            if (response?.$getdoc) {
+                const { data } = response.$getdoc;
+                // console.log('doc_data: ', data);
+
+                if (!firstSyncWithDoc) {
+                    setFirstSyncWithDoc(true);
+                }
+                setRmDoc(data);
+            }
 
         }
     }, [lastJsonMessage]);
 
     useEffect(() => {
-        sendBackgroundChanges(backgroundColor);
-    }, [backgroundColor])
+
+        if (rmDoc) {
+            // @ts-ignore
+            const bg = rmDoc?.whiteboard?.background;
+            
+            // @ts-ignore
+            const points = rmDoc?.whiteboard?.points || [];
+
+            updateGridRefWithPoints(points);
+
+            setUpdate(RID());
+        }
+
+    }, [rmDoc]);
+
+    useEffect(() => {
+        if (inRoom) {
+            // get the current doc data of the room
+
+            // @ts-ignore
+            formatAndSendMsg({
+                _getdoc: { db: { mongodb: { unique_db_name: _unique_db_name } } }
+            })
+
+        }
+    }, [inRoom])
+
+    // useEffect(() => {
+    //     if (inRoom) {
+    //         sendBackgroundChanges(backgroundColor);
+    //     }
+    // }, [backgroundColor, inRoom])
 
     useEffect(() => {
 
-        // @ts-ignore
-        formatAndSendMsg({
-            _set: {
-                "user": { "websocket_id": `${websocketID}`, date: new Date(), },
-            },
-            _get: true,
-        });
+        if (websocketID) {
 
-    }, []);
+            const clrs = Object.keys(_colors);
+            const randomColor = clrs[Math.floor(Math.random() * clrs.length)]
+
+            // @ts-ignore
+            formatAndSendMsg({
+                _set: {
+                    "user": {
+                        name: randomNameGenerator(),
+                        color: randomColor,
+                        type: "web-controller",
+                        "websocket_id": `${websocketID}`,
+                        date: new Date(),
+                    },
+                },
+                _get: true,
+            });
+        }
+
+    }, [websocketID]);
   
 
   return (
     <div key="my-whiteboard" className="flex flex-row">
+
+        <AlertDialog open={!begin} defaultOpen>
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                <AlertDialogTitle>Connecting...</AlertDialogTitle>
+                <AlertDialogDescription>
+                    This should only take a few seconds
+                </AlertDialogDescription>
+                </AlertDialogHeader>
+                    {me && <div className="flex flex-row items-center">
+                        <Badge
+                            className="rounded-sm"
+                            style={{
+                                // @ts-ignore
+                                background: _colors[me.color].tw,
+                            }}
+                        
+                        >
+                            {/* @ts-ignore */}
+                            {me.name}
+                        </Badge>
+                        <div className="mx-3 text-gray-500">-</div>
+                        {/* @ts-ignore */}
+                        <div className="text-sm text-gray-500">{me.date}</div>
+                    </div>}
+                <AlertDialogFooter>
+                <AlertDialogAction
+                    disabled={!(inRoom && firstSyncWithDoc)}
+                    onClick={() => setBegin(true)}
+                >Continue</AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
+
          <Card
             className={cn("min-w-[920px] min-h-[1300px] flex flex-row overflow-hidden")}
         >
@@ -341,15 +630,123 @@ export default function Whiteboard() {
                 />)}
             </div>)}
          </Card>
-         <ThemeCustomizer
-            selectedColor={selectedColor}
-            // @ts-ignore
-            setSelectedColor={setSelectedColor}
-            backgroundColor={backgroundColor}
-            // @ts-ignore
-            setBackgroundColor={setBackgroundColor}
-            clearPixels={clearPixels}
-        />
+         <div className="flex flex-col">
+
+            <ThemeCustomizer
+                selectedColor={selectedColor}
+                // @ts-ignore
+                setSelectedColor={setSelectedColor}
+                backgroundColor={backgroundColor}
+                // @ts-ignore
+                setBackgroundColor={setBackgroundColor}
+                clearPixels={clearPixels}
+            />
+
+            <div className="flex space-x-2 mt-1">
+                <Drawer>
+                    <DrawerTrigger asChild>
+                    <Button className="md:hidden">
+                        <EyeOpenIcon className="mr-2 h-4 w-4" />
+                        Viewers
+                    </Button>
+                    </DrawerTrigger>
+                    <DrawerContent className="p-6 pt-0">
+                        <Accordion type="single" collapsible className="w-full">
+                            <AccordionItem value="item-1">
+                                <AccordionTrigger>Is it accessible?</AccordionTrigger>
+                                <AccordionContent>
+                                Yes. It adheres to the WAI-ARIA design pattern.
+                                </AccordionContent>
+                            </AccordionItem>
+                            <AccordionItem value="item-2">
+                                <AccordionTrigger>Is it styled?</AccordionTrigger>
+                                <AccordionContent>
+                                Yes. It comes with default styles that matches the other
+                                components&apos; aesthetic.
+                                </AccordionContent>
+                            </AccordionItem>
+                            <AccordionItem value="item-3">
+                                <AccordionTrigger>Is it animated?</AccordionTrigger>
+                                <AccordionContent>
+                                Yes. It&apos;s animated by default, but you can disable it if you prefer.
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                    </DrawerContent>
+                </Drawer>
+                <div className="hidden md:flex">
+                    <Popover>
+                        <PopoverTrigger asChild>
+                            <Button>
+                                <EyeOpenIcon className="mr-2 h-4 w-4" />
+                                Viewers
+                            </Button>
+                        </PopoverTrigger>
+                        <PopoverContent
+                            align="center"
+                            className="z-40 w-[340px] rounded-[0.5rem] bg-white p-6 dark:bg-zinc-950"
+                        >
+                            <Accordion type="single" collapsible className="w-full">
+                                <AccordionItem value="item-1">
+                                    <AccordionTrigger>Me</AccordionTrigger>
+                                    <AccordionContent>
+                                        <div className="flex flex-col">
+                                            {me && <div className="flex flex-row justify-between">
+                                                <Badge
+                                                    className="rounded-sm"
+                                                    style={{
+                                                        // @ts-ignore
+                                                        background: _colors[me.color].tw,
+                                                    }}
+                                                
+                                                >
+                                                    {/* @ts-ignore */}
+                                                    {me.name}
+                                                </Badge>
+                                                {/* <div className="text-sm text-gray-500">{me.date}</div> */}
+                                            </div>}
+                                        </div>
+                                    </AccordionContent>
+                                </AccordionItem>
+                                <AccordionItem value="item-2">
+                                    <AccordionTrigger>{`${others.length} other viewer${others.length === 1 ? '' : 's'}`}</AccordionTrigger>
+                                    <AccordionContent>
+                                        <div className="flex flex-col">
+                                            {others.map(({ name, color, date }) => <div className="flex flex-row justify-between mb-2">
+                                                <Badge
+                                                    className="rounded-sm"
+                                                    style={{
+                                                        // @ts-ignore
+                                                        background: _colors[color].tw,
+                                                    }}
+                                                >{name}</Badge>
+                                                {/* <div className="text-xs text-gray-500">{date}</div> */}
+                                            </div>)}
+                                        </div>
+                                    </AccordionContent>
+                                </AccordionItem>
+                                <AccordionItem value="item-3">
+                                    <AccordionTrigger>Raspberry Pi Client</AccordionTrigger>
+                                    <AccordionContent>
+                                        <div className="flex flex-col">
+                                            <div className="flex flex-row justify-between">
+                                                <div
+                                                    className="text-sm text-success"
+                                                    style={{
+                                                        color: _colors[rpclient ? 'green' : 'rose'].tw,
+                                                    }}
+                                                >{rpclient ? 'Online' : 'Offline'}</div>
+                                                {/* <div className="text-sm text-gray-500">{me.date}</div> */}
+                                            </div>
+                                        </div>
+                                    </AccordionContent>
+                                </AccordionItem>
+                            </Accordion>
+                        </PopoverContent>
+                    </Popover>
+                </div>
+            </div>
+         </div>
     </div>
     
   );
