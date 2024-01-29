@@ -461,9 +461,11 @@ export default function Whiteboard() {
                     updateGridRefWithPoints(points_obj)
                     setUpdate(RID())
                 }
-                
 
-
+                if (data.clear) {
+                    gridRef.current = Array.from(Array(cols), () => new Array(rows).fill(null));
+                    setUpdate(RID());
+                }
             }
 
             if (broadcast?.$setdoc) {
