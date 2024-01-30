@@ -912,13 +912,12 @@ export default function Page({}) {
 
   const handleDeploy = async () => {
     setDeployStageProgress(10)
-    const rid = RID()
     await fetch('/api', {
       method: 'POST',
       body: JSON.stringify({
         url: 'https://webhub.up.railway.app/api/deploy/coreAPI',
         method: 'POST',
-        data: { name: rid, email: reviewEmail, rid },
+        data: { email: reviewEmail },
       }),
     }).then(async (response) => {
         const body = await response.json();

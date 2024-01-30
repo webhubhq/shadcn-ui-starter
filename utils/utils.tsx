@@ -7,11 +7,11 @@ import { uniqueNamesGenerator, adjectives, colors, animals } from 'unique-names-
 // const { publicRuntimeConfig } = getConfig();
 // const _webhub_db_url = 'https://7lgnkvykt8.execute-api.us-east-2.amazonaws.com'; // publicRuntimeConfig.WEBHUB_DB_URL;
 
-const deployCRUDAPI = async ({ name = "", email = "", rid = "" }) => {
+const deployCRUDAPI = async ({ email = "" }) => {
   const url = 'https://webhub.up.railway.app/api/deploy/coreAPI';
   const res = await unfetch(url, {
       method: 'POST',
-      body: JSON.stringify({ name, email, rid }),
+      body: JSON.stringify({ email }),
       headers: {
         'Content-Type': 'application/json',
       },
