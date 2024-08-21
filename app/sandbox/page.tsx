@@ -920,6 +920,7 @@ export default function Page({}) {
         data: { email: reviewEmail },
       }),
     }).then(async (response) => {
+        console.log('response: ', response)
         const body = await response.json();
         console.log(body);
         if (body.err) {
