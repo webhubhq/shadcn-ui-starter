@@ -123,6 +123,12 @@ export default function Page({}) {
       ],
       variant: 'destructive',
     },
+    timeout: {
+      stage: [
+        'Stream timeout: your service may still deploy, but it took to long to respond',
+      ],
+      variant: 'destructive',
+    },
     success: {
       stage: [
         'API Successfully Deployed'
@@ -939,7 +945,8 @@ export default function Page({}) {
         }
       })
       .catch((err) => {
-          console.log('err: ', err)
+          console.log('err: ', err);
+          setDeployStageMessage({ type: 'timeout', stage: 0 });
           setDeployStageProgress(0)
       });
   };
