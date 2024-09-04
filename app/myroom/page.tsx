@@ -399,7 +399,7 @@ export default function Whiteboard() {
             // broadcast keys: $enter_rm, $set, $notification, $disconnect, $setdoc, $updatedoc
             broadcast,
             
-            // response keys: $enter_rm, $set_rm, $notification, $set, $get, $setdoc, $updatedoc, $getdoc
+            // response keys: $enter_rm, $notification, $set, $get, $setdoc, $updatedoc, $getdoc
             response,
 
             } = lastJsonMessage;
@@ -417,10 +417,6 @@ export default function Whiteboard() {
                     }
                 }
 
-            }
-
-            if (broadcast?.$set_rm) {
-                const { connectionId, data: { user } } = broadcast.$set_rm;
             }
 
             if (broadcast?.$disconnect) {
