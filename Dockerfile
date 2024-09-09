@@ -21,7 +21,7 @@ RUN npm install
 # RUN npm uninstall next && npm install next
 
 # Install shadcn-ui
-RUN npx shadcn-ui add --overwrite --yes textarea tabs separator select radio-group progress input dialog card button label command checkbox accordion badge form alert alert-dialog popover switch sheet tooltip skeleton drawer sonner dropdown-menu avatar scroll-area resizable
+RUN npx shadcn-ui@latest add --overwrite --yes accordion alert alert-dialog avatar badge button card checkbox command dialog drawer dropdown-menu form input label popover progress radio-group resizable scroll-area select separator sheet skeleton sonner switch tabs textarea tooltip
 
 
 # Copy the entire project into the container
